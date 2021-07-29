@@ -27,11 +27,6 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     width: "25ch",
   },
-  formControlNaked: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    width: "25ch",
-  },
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
