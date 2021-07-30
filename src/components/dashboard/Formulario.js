@@ -1,6 +1,9 @@
 import React from "react";
 import DatosPersonales from "./DatosPersonales";
 import CondicionMigratoria from "./CondicionMigratoria";
+import InformacionEconomica from "./InformacionEconomica";
+import Sectores from "./Sectores";
+import Pep from "./Pep";
 //material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -31,11 +34,10 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return [
     "Datos Personales",
+    "Sectores",
     "Condición Migratoria",
     "PEP",
     "Información Económica",
-    "Productos",
-    "Perfil Económico y transaccional",
   ];
 }
 
@@ -44,9 +46,13 @@ function getStepContent(stepIndex) {
     case 0:
       return <DatosPersonales />;
     case 1:
-      return <CondicionMigratoria />;
+      return <Sectores />;
     case 2:
-      return "This is the bit I really care about!";
+      return <CondicionMigratoria />;
+    case 3:
+      return <Pep />;
+    case 4:
+      return <InformacionEconomica />;
     default:
       return "Unknown stepIndex";
   }

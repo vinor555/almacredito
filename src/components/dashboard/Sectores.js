@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+
+//Material UI
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import "date-fns";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-    width: "25ch",
+    width: "50ch",
+  },
+  formControlSwitch: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    width: "23ch",
   },
   section1: {
     margin: theme.spacing(1, 1),
@@ -36,42 +47,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CondicionMigratoria() {
+export default function Sectores() {
   const classes = useStyles();
-  const [nacionalidad, setNacionalidad] = useState("");
-  const [areaNacNac, setAreaNacNac] = useState("");
-  const [departamentoNacNac, setDepartamentoNacNac] = useState("");
-  const [municipioNacNac, setMunicipioNacNac] = useState("");
-  const [areaNacExt, setAreaNacExt] = useState("");
-  const [departamentoNacExt, setDepartamentoNacExt] = useState("");
-  const [municipioNacExt, setMunicipioNacExt] = useState("");
+  const [ispf, setIspf] = React.useState({
+    checkedA: true,
+    checkedB: true,
+  });
+  const [actividadEconomica, setActividadEconomica] = useState("");
+  const [sectorEconomico, setSectorEconomico] = useState("");
+  const [sectorEconomicoIve, setSectorEconomicoIve] = useState("");
+  const [claseCliente, setClaseCliente] = useState("");
+  const [agrupacion, setAgrupacion] = useState("");
 
-  const handleChangeNacionalidad = (event) => {
-    setNacionalidad(event.target.value);
+  const handleChangeISPF = (event) => {
+    setIspf({ ...ispf, [event.target.name]: event.target.checked });
   };
 
-  const handleChangeAreaNacNac = (event) => {
-    setAreaNacNac(event.target.value);
+  const handleChangeActividadEconomica = (event) => {
+    setActividadEconomica(event.target.value);
   };
 
-  const handleChangeDepartamentoNacNac = (event) => {
-    setDepartamentoNacNac(event.target.value);
+  const handleChangeSectorEconomico = (event) => {
+    setSectorEconomico(event.target.value);
   };
 
-  const handleChangeMunicipioNacNac = (event) => {
-    setMunicipioNacNac(event.target.value);
+  const handleChangeSectorEconomicoIve = (event) => {
+    setSectorEconomicoIve(event.target.value);
   };
 
-  const handleChangeAreaNacExt = (event) => {
-    setAreaNacExt(event.target.value);
+  const handleChangeClaseCliente = (event) => {
+    setClaseCliente(event.target.value);
   };
-
-  const handleChangeDepartamentoNacExt = (event) => {
-    setDepartamentoNacExt(event.target.value);
-  };
-
-  const handleChangeMunicipioNacExt = (event) => {
-    setMunicipioNacExt(event.target.value);
+  const handleChangeAgrupacion = (event) => {
+    setAgrupacion(event.target.value);
   };
 
   const DividerWithText = ({ children }) => {
@@ -85,27 +93,27 @@ export default function CondicionMigratoria() {
     <form className={classes.root} noValidate autoComplete="off">
       <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>
-        <FormControl
+        <FormControlLabel
+          className={classes.formControlSwitch}
+          control={
+            <Switch
+              checked={ispf.checkedB}
+              onChange={handleChangeISPF}
+              name="checkedB"
+              color="primary"
+            />
+          }
+          label="Es Afecto a ISPF"
+        />
+        <TextField
+          id="outlined-required"
+          label="Código Empleado"
+          defaultValue=""
           variant="outlined"
-          className={classes.formControl}
-          required
           size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Nacionalidad
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={nacionalidad}
-            onChange={handleChangeNacionalidad}
-            label="Nacionalidad"
-          >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
-          </Select>
-        </FormControl>
+          className={classes.formControl}
+        />
       </div>
-      <DividerWithText>Lugar Nacimiento Nacional</DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -113,15 +121,17 @@ export default function CondicionMigratoria() {
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Area</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">
+            Actividad Económica
+          </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={areaNacNac}
-            onChange={handleChangeAreaNacNac}
-            label="Area"
+            value={actividadEconomica}
+            onChange={handleChangeActividadEconomica}
+            label="Actividad Económica"
           >
-            <MenuItem value="C">CENTRAL</MenuItem>
+            <MenuItem value={755}>EMPLEADO REL DEPENDENCIA (PUBLICO)</MenuItem>
           </Select>
         </FormControl>
         <FormControl
@@ -131,39 +141,19 @@ export default function CondicionMigratoria() {
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Departamento
+            Sector Económico
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={departamentoNacNac}
-            onChange={handleChangeDepartamentoNacNac}
-            label="Departamento"
+            value={sectorEconomico}
+            onChange={handleChangeSectorEconomico}
+            label="Sector Económico"
           >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Municipio
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={municipioNacNac}
-            onChange={handleChangeMunicipioNacNac}
-            label="Municipio"
-          >
-            <MenuItem value="GT-GT">GUATEMALA</MenuItem>
+            <MenuItem value={3}>Otras Entidades Financieras</MenuItem>
           </Select>
         </FormControl>
       </div>
-      <DividerWithText>Lugar Nacimiento Extranjero</DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -171,15 +161,17 @@ export default function CondicionMigratoria() {
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Area</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">
+            Sector Económico IVE
+          </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={areaNacExt}
-            onChange={handleChangeAreaNacExt}
-            label="Area"
+            value={sectorEconomicoIve}
+            onChange={handleChangeSectorEconomicoIve}
+            label="Sector Económico"
           >
-            <MenuItem value="C">CENTRAL</MenuItem>
+            <MenuItem value={1}>SECTOR GOBIERNO</MenuItem>
           </Select>
         </FormControl>
         <FormControl
@@ -189,39 +181,40 @@ export default function CondicionMigratoria() {
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Departamento
+            Clase de Cliente
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={departamentoNacExt}
-            onChange={handleChangeDepartamentoNacExt}
-            label="Departamento"
+            value={claseCliente}
+            onChange={handleChangeClaseCliente}
+            label="Clase de Cliente"
           >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Municipio
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={municipioNacExt}
-            onChange={handleChangeMunicipioNacExt}
-            label="Municipio"
-          >
-            <MenuItem value="GT-GT">GUATEMALA</MenuItem>
+            <MenuItem value={1}>PARTICULAR</MenuItem>
           </Select>
         </FormControl>
       </div>
-
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Agrupación
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={agrupacion}
+            onChange={handleChangeAgrupacion}
+            label="Agrupación"
+          >
+            <MenuItem value={1}>PARTICULARES</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
     </form>
   );
 }

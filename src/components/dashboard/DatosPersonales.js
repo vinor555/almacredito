@@ -7,7 +7,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Grid from "@material-ui/core/Grid";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -26,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     width: "25ch",
+  },
+  formControlDir: {
+    width: "100ch",
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -76,6 +78,8 @@ export default function DatosPersonales() {
   const [municipio, setMunicipio] = useState("");
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
+  const [nivelAcademico, setNivelAcademico] = useState("");
+  const [tipoDireccion, setTipoDireccion] = useState("");
 
   const [selectedDate, setSelectedDate] = useState(
     new Date("1985-06-15T21:11:54")
@@ -113,6 +117,14 @@ export default function DatosPersonales() {
     setEstadoCivil(event.target.value);
   };
 
+  const handleChangeNivelAcademico = (event) => {
+    setNivelAcademico(event.target.value);
+  };
+
+  const handleChangeTipoDireccion = (event) => {
+    setTipoDireccion(event.target.value);
+  };
+
   const DividerWithText = ({ children }) => {
     return (
       <div className={classes.container}>
@@ -123,82 +135,6 @@ export default function DatosPersonales() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>Datos Generales</DividerWithText>
-      <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Tipo de Persona
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={tipoPersona}
-            onChange={handleChangeTipoPersona}
-            label="Tipo de Persona"
-          >
-            <MenuItem value="I">Individual</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">Sexo</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={sexo}
-            onChange={handleChangeSexo}
-            label="Sexo"
-          >
-            <MenuItem value="M">Masculino</MenuItem>
-            <MenuItem value="F">Femenino</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Estado Civil
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={estadoCivil}
-            onChange={handleChangeEstadoCivil}
-            label="Estado Civil"
-          >
-            <MenuItem value="S">Soltero/a</MenuItem>
-            <MenuItem value="C">Casado/a</MenuItem>
-          </Select>
-        </FormControl>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container justifyContent="flex-start">
-            <KeyboardDatePicker
-              variant="inline"
-              margin="normal"
-              id="date-picker-dialog"
-              label="Fecha de Nacimiento"
-              format="dd/MM/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
-          </Grid>
-        </MuiPickersUtilsProvider>
-      </div>
       <DividerWithText>Identificación</DividerWithText>
       <div className={classes.section1}>
         <TextField
@@ -288,6 +224,17 @@ export default function DatosPersonales() {
           </Select>
         </FormControl>
       </div>
+      <DividerWithText>Nit</DividerWithText>
+      <div className={classes.section1}>
+        <TextField
+          required
+          id="outlined-required"
+          label="Nit"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+        />
+      </div>
       <DividerWithText>Nombres</DividerWithText>
       <div className={classes.section1}>
         <TextField
@@ -340,6 +287,163 @@ export default function DatosPersonales() {
           defaultValue=""
           variant="outlined"
           size="small"
+        />
+      </div>
+      <DividerWithText>Datos Generales</DividerWithText>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Tipo de Persona
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={tipoPersona}
+            onChange={handleChangeTipoPersona}
+            label="Tipo de Persona"
+          >
+            <MenuItem value="I">Individual</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">Sexo</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={sexo}
+            onChange={handleChangeSexo}
+            label="Sexo"
+          >
+            <MenuItem value="M">Masculino</MenuItem>
+            <MenuItem value="F">Femenino</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Estado Civil
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={estadoCivil}
+            onChange={handleChangeEstadoCivil}
+            label="Estado Civil"
+          >
+            <MenuItem value="S">Soltero/a</MenuItem>
+            <MenuItem value="C">Casado/a</MenuItem>
+          </Select>
+        </FormControl>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          
+            <KeyboardDatePicker
+              variant="outline"
+              margin="normal"
+              id="date-picker-dialog"
+              label="Fecha de Nacimiento"
+              format="dd/MM/yyyy"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+        </MuiPickersUtilsProvider>
+      </div>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Nivel Académico
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={nivelAcademico}
+            onChange={handleChangeNivelAcademico}
+            label="Nivel Académico"
+          >
+            <MenuItem value={1}>Primnaria</MenuItem>
+            <MenuItem value={2}>Básicos</MenuItem>
+            <MenuItem value={3}>Bachillerato</MenuItem>
+            <MenuItem value={4}>Universidad</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          required
+          id="outlined-required"
+          label="Profesión"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Ocupación"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+        />
+        
+      </div>
+      <div className={classes.section1}>
+      <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Tipo Dirección
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={tipoDireccion}
+            onChange={handleChangeTipoDireccion}
+            label="Tipo Dirección"
+          >
+            <MenuItem value={1}>DOMICILIO</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          required
+          id="outlined-required"
+          label="Dirección"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          style = {{width: "52ch"}}
+        />
+      </div>
+      <div className={classes.section1}>
+      <TextField
+          required
+          id="outlined-required"
+          label="e-mail"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          style = {{width: "52ch"}}
         />
       </div>
     </form>
