@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import NuevoPep from "./NuevoPep";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import SwipeableViews from "react-swipeable-views";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
-import UpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
+
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import PersonIcon from "@material-ui/icons/Person";
+import DraftsIcon from "@material-ui/icons/Drafts";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -87,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function ListItemLink(props) {
+  return <ListItem button component="a" {...props} />;
+}
+
 export default function Pep() {
   const classes = useStyles();
   const [relacionDependencia, setRelacionDependencia] = React.useState({
@@ -94,7 +111,17 @@ export default function Pep() {
     checkedB: true,
   });
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleChangeRelacionDependencia = (event) => {
     setRelacionDependencia({
@@ -127,22 +154,35 @@ export default function Pep() {
       icon: <AddIcon />,
       label: "Add",
     },
-    {
-      color: "secondary",
-      className: classes.fab,
-      icon: <EditIcon />,
-      label: "Edit",
-    },
-    {
-      color: "inherit",
-      className: clsx(classes.fab, classes.fabGreen),
-      icon: <UpIcon />,
-      label: "Expand",
-    },
   ];
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
+      <div className={classes.section1}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Ingrese la información de Familiar o Asociado que PEP"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <NuevoPep />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Guardar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
       <div className={classes.section1}>
         <FormControlLabel
           control={
@@ -165,21 +205,30 @@ export default function Pep() {
           index={value}
           onChangeIndex={handleChangeIndex}
         >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            Carlos Garcia Juarez Baldizon
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            Mario Antonio Garcia Portillo
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            Mario Antonio Garcia Portillo
-          </TabPanel>
+          <List component="nav" aria-label="main mailbox folders">
+            <ListItem button>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Carlos Alejandro Baldizon" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List component="nav" aria-label="secondary mailbox folders">
+            <ListItem button>
+              <ListItemText primary="Trash" />
+            </ListItem>
+            <ListItemLink href="#simple-list">
+              <ListItemText primary="Spam" />
+            </ListItemLink>
+          </List>
         </SwipeableViews>
         {fabs.map((fab, index) => (
           <Zoom
             key={fab.color}
             in={value === index}
             timeout={transitionDuration}
+            onClick={handleClickOpen}
             style={{
               transitionDelay: `${
                 value === index ? transitionDuration.exit : 0

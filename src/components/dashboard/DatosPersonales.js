@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,6 +86,44 @@ export default function DatosPersonales() {
   const [selectedDate, setSelectedDate] = useState(
     new Date("1985-06-15T21:11:54")
   );
+
+  //consumir el servicio de departamentos
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [users, setUsers] = useState([]);
+  /*useEffect(() => {
+    //fetch("https://jsonplaceholder.typicode.com/users/")
+    fetch("https://appsrv01.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/findAllByCodigoRegion?codigoRegion=1")
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          setIsLoaded(true);
+          setUsers(data);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);*/
+
+  useEffect(() => {
+    //fetch("https://jsonplaceholder.typicode.com/users/")
+    fetch(
+      "https://appsrv01.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/findAllByCodigoRegion?codigoRegion=1"
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          setIsLoaded(true);
+          setUsers(data.departamento);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -201,7 +241,11 @@ export default function DatosPersonales() {
             onChange={handleChangeDepartamento}
             label="Departamento"
           >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
+            {users.map((user) => (
+              <MenuItem key={user.id} value={user.descripcion}>
+                {user.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl
@@ -349,19 +393,18 @@ export default function DatosPersonales() {
           </Select>
         </FormControl>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          
-            <KeyboardDatePicker
-              variant="outline"
-              margin="normal"
-              id="date-picker-dialog"
-              label="Fecha de Nacimiento"
-              format="dd/MM/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
+          <KeyboardDatePicker
+            variant="outline"
+            margin="normal"
+            id="date-picker-dialog"
+            label="Fecha de Nacimiento"
+            format="dd/MM/yyyy"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
         </MuiPickersUtilsProvider>
       </div>
       <div className={classes.section1}>
@@ -403,10 +446,9 @@ export default function DatosPersonales() {
           variant="outlined"
           size="small"
         />
-        
       </div>
       <div className={classes.section1}>
-      <FormControl
+        <FormControl
           variant="outlined"
           className={classes.formControl}
           required
@@ -432,18 +474,18 @@ export default function DatosPersonales() {
           defaultValue=""
           variant="outlined"
           size="small"
-          style = {{width: "52ch"}}
+          style={{ width: "52ch" }}
         />
       </div>
       <div className={classes.section1}>
-      <TextField
+        <TextField
           required
           id="outlined-required"
           label="e-mail"
           defaultValue=""
           variant="outlined"
           size="small"
-          style = {{width: "52ch"}}
+          style={{ width: "52ch" }}
         />
       </div>
     </form>
