@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import NuevoPep from "./NuevoPep";
+import NuevaDireccion from "./NuevaDireccion";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
@@ -25,7 +23,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import PersonIcon from "@material-ui/icons/Person";
+import HomeIcon from "@material-ui/icons/Home";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -103,12 +101,8 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-export default function Pep() {
+export default function ListaDirecciones() {
   const classes = useStyles();
-  const [relacionDependencia, setRelacionDependencia] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
   const theme = useTheme();
   const [value, setValue] = useState(0);
 
@@ -120,13 +114,6 @@ export default function Pep() {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleChangeRelacionDependencia = (event) => {
-    setRelacionDependencia({
-      ...relacionDependencia,
-      [event.target.name]: event.target.checked,
-    });
   };
 
   const DividerWithText = ({ children }) => {
@@ -154,7 +141,6 @@ export default function Pep() {
       label: "Add",
     },
   ];
-
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div className={classes.section1}>
@@ -165,11 +151,11 @@ export default function Pep() {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Ingrese la información de Familiar o Asociado que PEP"}
+            {"Ingrese Dirección"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <NuevoPep />
+              <NuevaDireccion />
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -182,22 +168,7 @@ export default function Pep() {
           </DialogActions>
         </Dialog>
       </div>
-      <div className={classes.section1}>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={relacionDependencia.checkedB}
-              onChange={handleChangeRelacionDependencia}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="¿El solicitante es una Persona Expuesta Politicamente (PEP)?"
-        />
-      </div>
-      <DividerWithText>
-        Ingrese la información de los Familiares o Asociados que sean PEP
-      </DividerWithText>
+      <DividerWithText>Direcciones</DividerWithText>
       <div className={classes.rootList}>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -207,9 +178,9 @@ export default function Pep() {
           <List component="nav" aria-label="main mailbox folders">
             <ListItem button>
               <ListItemIcon>
-                <PersonIcon />
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary="Carlos Alejandro Baldizon" />
+              <ListItemText primary="DOMICILIO - 9A. AVENIDA 4-80 ZONA 1" />
             </ListItem>
           </List>
           <Divider />

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ListaDirecciones from "./ListaDirecciones";
+import ListaCorreos from "./ListaCorreos";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -13,8 +15,6 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,7 +81,6 @@ export default function DatosPersonales() {
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
   const [nivelAcademico, setNivelAcademico] = useState("");
-  const [tipoDireccion, setTipoDireccion] = useState("");
 
   const [selectedDate, setSelectedDate] = useState(
     new Date("1985-06-15T21:11:54")
@@ -159,10 +158,6 @@ export default function DatosPersonales() {
 
   const handleChangeNivelAcademico = (event) => {
     setNivelAcademico(event.target.value);
-  };
-
-  const handleChangeTipoDireccion = (event) => {
-    setTipoDireccion(event.target.value);
   };
 
   const DividerWithText = ({ children }) => {
@@ -447,47 +442,10 @@ export default function DatosPersonales() {
           size="small"
         />
       </div>
-      <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Tipo Dirección
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={tipoDireccion}
-            onChange={handleChangeTipoDireccion}
-            label="Tipo Dirección"
-          >
-            <MenuItem value={1}>DOMICILIO</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          required
-          id="outlined-required"
-          label="Dirección"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-          style={{ width: "52ch" }}
-        />
-      </div>
-      <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="e-mail"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-          style={{ width: "52ch" }}
-        />
-      </div>
+      <ListaDirecciones />
+      <ListaCorreos />
+
+      
     </form>
   );
 }
