@@ -66,16 +66,18 @@ export default function Menu() {
         </label>
       </div>
       <div className={classes.externo}>
-        <label htmlFor="icon-button-file">
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <GroupAddIcon className={classes.icon} />
-            <div>Referencias</div>
-          </IconButton>
-        </label>
+        <Link to="/referencias">
+          <label htmlFor="icon-button-file">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="span"
+            >
+              <GroupAddIcon className={classes.icon} />
+              <div>Referencias</div>
+            </IconButton>
+          </label>
+        </Link>
       </div>
     </div>
   );
