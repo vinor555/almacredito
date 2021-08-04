@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 //Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -33,7 +34,9 @@ export default function Dashboard() {
   return (
     <AppBar position="static">
       <Toolbar>
-        <img src={logo} className={classes.logo} alt="logo" />
+        <Link to="/">
+          <img src={logo} className={classes.logo} alt="logo" />
+        </Link>
 
         <Typography variant="h6" className={classes.title}></Typography>
         <IconButton
