@@ -22,7 +22,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import BusinessIcon from '@material-ui/icons/Business';
+import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import NuevaReferenciaLaboral from "./NuevaReferenciaLaboral";
 
 function TabPanel(props) {
@@ -178,9 +180,12 @@ export default function ReferenciasLaborales() {
           <List component="nav" aria-label="main mailbox folders">
             <ListItem button>
               <ListItemIcon>
-                <BusinessIcon />
+                <BusinessCenterIcon />
               </ListItemIcon>
               <ListItemText primary="SERVICIOS DE ALQUILER DE BIENES" />
+              <IconButton aria-label="delete" color="secondary">
+                <DeleteIcon />
+              </IconButton>
             </ListItem>
           </List>
           <Divider />

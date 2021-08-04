@@ -23,7 +23,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import BusinessIcon from '@material-ui/icons/Business';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -178,7 +178,7 @@ export default function ReferenciasComerciales() {
           <List component="nav" aria-label="main mailbox folders">
             <ListItem button>
               <ListItemIcon>
-                <BusinessCenterIcon />
+                <BusinessIcon />
               </ListItemIcon>
               <ListItemText primary="SURTIMEDICA S.A." />
             </ListItem>
