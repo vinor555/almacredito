@@ -44,16 +44,18 @@ export default function Menu() {
           </label>
         </Link>
 
-        <label htmlFor="icon-button-file">
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <StyleIcon className={classes.icon} />
-            <div>Productos</div>
-          </IconButton>
-        </label>
+        <Link to="/productos">
+          <label htmlFor="icon-button-file">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="span"
+            >
+              <StyleIcon className={classes.icon} />
+              <div>Productos</div>
+            </IconButton>
+          </label>
+        </Link>
         <label htmlFor="icon-button-file">
           <IconButton
             color="primary"

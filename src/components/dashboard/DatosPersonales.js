@@ -72,11 +72,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DatosPersonales() {
+  /*constructor(props){
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }*/
+
   const classes = useStyles();
   const [tipoPersona, setTipoPersona] = useState("");
   const [tipoID, setTipoID] = useState("");
-  const [area, setArea] = useState("");
-  const [departamento, setDepartamento] = useState("");
+  const [departamento, setDepartamento] = useState(1);
   const [municipio, setMunicipio] = useState("");
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
@@ -89,33 +94,21 @@ export default function DatosPersonales() {
   //consumir el servicio de departamentos
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [users, setUsers] = useState([]);
-  /*useEffect(() => {
-    //fetch("https://jsonplaceholder.typicode.com/users/")
-    fetch("https://appsrv01.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/findAllByCodigoRegion?codigoRegion=1")
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setIsLoaded(true);
-          setUsers(data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);*/
+  const [departamentos, setDepartamentos] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
+
+
 
   useEffect(() => {
-    //fetch("https://jsonplaceholder.typicode.com/users/")
     fetch(
-      "https://appsrv01.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/findAllByCodigoRegion?codigoRegion=1"
+      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/all"
     )
       .then((res) => res.json())
       .then(
         (data) => {
+          console.log(data.departamentos);
           setIsLoaded(true);
-          setUsers(data.departamento);
+          setDepartamentos(data.departamentos);
         },
         (error) => {
           setIsLoaded(true);
@@ -123,6 +116,28 @@ export default function DatosPersonales() {
         }
       );
   }, []);
+
+
+
+  useEffect(() => {
+    fetch(
+      `https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamento}`
+      //"https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=22",
+      
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log(data.municipios);
+          setIsLoaded(true);
+          setMunicipios(data.municipios);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, [departamento]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -136,12 +151,9 @@ export default function DatosPersonales() {
     setTipoID(event.target.value);
   };
 
-  const handleChangeArea = (event) => {
-    setArea(event.target.value);
-  };
-
   const handleChangeDepartamento = (event) => {
     setDepartamento(event.target.value);
+    console.log(departamento);
   };
 
   const handleChangeMunicipio = (event) => {
@@ -209,23 +221,6 @@ export default function DatosPersonales() {
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Area</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={area}
-            onChange={handleChangeArea}
-            label="Area"
-          >
-            <MenuItem value="C">CENTRAL</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
           <InputLabel id="demo-simple-select-outlined-label">
             Departamento
           </InputLabel>
@@ -236,9 +231,12 @@ export default function DatosPersonales() {
             onChange={handleChangeDepartamento}
             label="Departamento"
           >
-            {users.map((user) => (
-              <MenuItem key={user.id} value={user.descripcion}>
-                {user.descripcion}
+            {departamentos.map((departamento) => (
+              <MenuItem
+                key={departamento.codigoDepartamento}
+                value={departamento.codigoDepartamento}
+              >
+                {departamento.descripcion}
               </MenuItem>
             ))}
           </Select>
@@ -259,7 +257,14 @@ export default function DatosPersonales() {
             onChange={handleChangeMunicipio}
             label="Municipio"
           >
-            <MenuItem value="GT-GT">GUATEMALA</MenuItem>
+            {municipios.map((municipio) => (
+              <MenuItem
+                key={municipio.codigoMunicipio}
+                value={municipio.descripcion}
+              >
+                {municipio.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -444,8 +449,6 @@ export default function DatosPersonales() {
       </div>
       <ListaDirecciones />
       <ListaCorreos />
-
-      
     </form>
   );
 }
