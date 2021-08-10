@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -39,19 +39,12 @@ const useStyles = makeStyles((theme) => ({
 export default function CondicionMigratoria() {
   const classes = useStyles();
   const [nacionalidad, setNacionalidad] = useState("");
-  const [areaNacNac, setAreaNacNac] = useState("");
-  const [departamentoNacNac, setDepartamentoNacNac] = useState("");
+  const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
   const [municipioNacNac, setMunicipioNacNac] = useState("");
-  const [areaNacExt, setAreaNacExt] = useState("");
-  const [departamentoNacExt, setDepartamentoNacExt] = useState("");
-  const [municipioNacExt, setMunicipioNacExt] = useState("");
+  const [paisExt, setPaisExt] = useState("");
 
   const handleChangeNacionalidad = (event) => {
     setNacionalidad(event.target.value);
-  };
-
-  const handleChangeAreaNacNac = (event) => {
-    setAreaNacNac(event.target.value);
   };
 
   const handleChangeDepartamentoNacNac = (event) => {
@@ -62,16 +55,8 @@ export default function CondicionMigratoria() {
     setMunicipioNacNac(event.target.value);
   };
 
-  const handleChangeAreaNacExt = (event) => {
-    setAreaNacExt(event.target.value);
-  };
-
-  const handleChangeDepartamentoNacExt = (event) => {
-    setDepartamentoNacExt(event.target.value);
-  };
-
-  const handleChangeMunicipioNacExt = (event) => {
-    setMunicipioNacExt(event.target.value);
+  const handleChangePaisExt = (event) => {
+    setPaisExt(event.target.value);
   };
 
   const DividerWithText = ({ children }) => {
@@ -81,6 +66,68 @@ export default function CondicionMigratoria() {
       </div>
     );
   };
+
+  //consumir el servicio de departamentos
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [paises, setPaises] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/paises/all"
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log(data.paises);
+          setIsLoaded(true);
+          setPaises(data.paises);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/all"
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log(data.departamentos);
+          setIsLoaded(true);
+          setDepartamentos(data.departamentos);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      `https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamentoNacNac}`
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log(data.municipios);
+          setIsLoaded(true);
+          setMunicipios(data.municipios);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, [departamentoNacNac]);
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <DividerWithText>Datos Generales</DividerWithText>
@@ -101,29 +148,16 @@ export default function CondicionMigratoria() {
             onChange={handleChangeNacionalidad}
             label="Nacionalidad"
           >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
+            {paises.map((pais) => (
+              <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
+                {pais.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
       <DividerWithText>Lugar Nacimiento Nacional</DividerWithText>
       <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">Area</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={areaNacNac}
-            onChange={handleChangeAreaNacNac}
-            label="Area"
-          >
-            <MenuItem value="C">CENTRAL</MenuItem>
-          </Select>
-        </FormControl>
         <FormControl
           variant="outlined"
           className={classes.formControl}
@@ -140,7 +174,14 @@ export default function CondicionMigratoria() {
             onChange={handleChangeDepartamentoNacNac}
             label="Departamento"
           >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
+            {departamentos.map((departamento) => (
+              <MenuItem
+                key={departamento.codigoDepartamento}
+                value={departamento.codigoDepartamento}
+              >
+                {departamento.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl
@@ -159,7 +200,14 @@ export default function CondicionMigratoria() {
             onChange={handleChangeMunicipioNacNac}
             label="Municipio"
           >
-            <MenuItem value="GT-GT">GUATEMALA</MenuItem>
+            {municipios.map((municipio) => (
+              <MenuItem
+                key={municipio.codigoMunicipio}
+                value={municipio.descripcion}
+              >
+                {municipio.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -171,57 +219,22 @@ export default function CondicionMigratoria() {
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Area</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={areaNacExt}
-            onChange={handleChangeAreaNacExt}
-            label="Area"
+            value={paisExt}
+            onChange={handleChangePaisExt}
+            label="País"
           >
-            <MenuItem value="C">CENTRAL</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Departamento
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={departamentoNacExt}
-            onChange={handleChangeDepartamentoNacExt}
-            label="Departamento"
-          >
-            <MenuItem value="GT">GUATEMALA</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Municipio
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={municipioNacExt}
-            onChange={handleChangeMunicipioNacExt}
-            label="Municipio"
-          >
-            <MenuItem value="GT-GT">GUATEMALA</MenuItem>
+            {paises.map((pais) => (
+              <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
+                {pais.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
-
     </form>
   );
 }

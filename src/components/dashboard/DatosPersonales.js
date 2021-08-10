@@ -72,17 +72,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DatosPersonales() {
-  /*constructor(props){
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }*/
-
   const classes = useStyles();
   const [tipoPersona, setTipoPersona] = useState("");
   const [tipoID, setTipoID] = useState("");
   const [departamento, setDepartamento] = useState(1);
-  const [municipio, setMunicipio] = useState("");
+  const [municipio, setMunicipio] = useState(5);
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
   const [nivelAcademico, setNivelAcademico] = useState("");
@@ -96,8 +90,24 @@ export default function DatosPersonales() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
+  const [tiposPersona, setTiposPersona] = useState([]);
 
-
+  useEffect(() => {
+    fetch("https://localhost:9443/middleware/catalogos/tiposPersona/all")
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log("TESTEANDO");
+          console.log(data.list);
+          setIsLoaded(true);
+          setTiposPersona(data.list);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
 
   useEffect(() => {
     fetch(
@@ -117,13 +127,9 @@ export default function DatosPersonales() {
       );
   }, []);
 
-
-
   useEffect(() => {
     fetch(
       `https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamento}`
-      //"https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=22",
-      
     )
       .then((res) => res.json())
       .then(
@@ -182,6 +188,28 @@ export default function DatosPersonales() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Tipo de Persona
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={tipoPersona}
+            onChange={handleChangeTipoPersona}
+            label="Tipo de Persona"
+          >
+            <MenuItem value="I">Individual</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <DividerWithText>Identificación</DividerWithText>
       <div className={classes.section1}>
         <TextField
@@ -335,25 +363,6 @@ export default function DatosPersonales() {
       </div>
       <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Tipo de Persona
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={tipoPersona}
-            onChange={handleChangeTipoPersona}
-            label="Tipo de Persona"
-          >
-            <MenuItem value="I">Individual</MenuItem>
-          </Select>
-        </FormControl>
         <FormControl
           variant="outlined"
           className={classes.formControl}
