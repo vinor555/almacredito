@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.2a57037b.chunk.css",
-    "main.js": "/static/js/main.f180648d.chunk.js",
-    "main.js.map": "/static/js/main.f180648d.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.95a28ae6.js",
-    "runtime-main.js.map": "/static/js/runtime-main.95a28ae6.js.map",
-    "static/js/2.30b4d3eb.chunk.js": "/static/js/2.30b4d3eb.chunk.js",
-    "static/js/2.30b4d3eb.chunk.js.map": "/static/js/2.30b4d3eb.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.2a57037b.chunk.css.map": "/static/css/main.2a57037b.chunk.css.map",
-    "static/js/2.30b4d3eb.chunk.js.LICENSE.txt": "/static/js/2.30b4d3eb.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/static/media/chn_logo.6d6f0449.jpg"
+    "main.css": "/almacredito/static/css/main.b237d9fe.chunk.css",
+    "main.js": "/almacredito/static/js/main.f180648d.chunk.js",
+    "main.js.map": "/almacredito/static/js/main.f180648d.chunk.js.map",
+    "runtime-main.js": "/almacredito/static/js/runtime-main.900bb3a7.js",
+    "runtime-main.js.map": "/almacredito/static/js/runtime-main.900bb3a7.js.map",
+    "static/js/2.30b4d3eb.chunk.js": "/almacredito/static/js/2.30b4d3eb.chunk.js",
+    "static/js/2.30b4d3eb.chunk.js.map": "/almacredito/static/js/2.30b4d3eb.chunk.js.map",
+    "index.html": "/almacredito/index.html",
+    "static/css/main.b237d9fe.chunk.css.map": "/almacredito/static/css/main.b237d9fe.chunk.css.map",
+    "static/js/2.30b4d3eb.chunk.js.LICENSE.txt": "/almacredito/static/js/2.30b4d3eb.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/almacredito/static/media/chn_logo.6d6f0449.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.95a28ae6.js",
+    "static/js/runtime-main.900bb3a7.js",
     "static/js/2.30b4d3eb.chunk.js",
-    "static/css/main.2a57037b.chunk.css",
+    "static/css/main.b237d9fe.chunk.css",
     "static/js/main.f180648d.chunk.js"
   ]
 }
