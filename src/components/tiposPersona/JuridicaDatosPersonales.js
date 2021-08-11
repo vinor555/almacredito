@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ListaRepresentantes from "./ListaRepresentantes";
 //Material UI
 
 import TextField from "@material-ui/core/TextField";
@@ -154,9 +155,7 @@ export default function JuridicaDatosPersonales() {
           </Select>
         </FormControl>
       </div>
-      <DividerWithText>
-        Datos Generales
-      </DividerWithText>
+      <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -276,6 +275,7 @@ export default function JuridicaDatosPersonales() {
           style={{ width: "52ch" }}
         />
       </div>
+      <ListaRepresentantes />
     </form>
   );
 }
