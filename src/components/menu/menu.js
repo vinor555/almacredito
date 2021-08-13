@@ -6,7 +6,6 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import StyleIcon from "@material-ui/icons/Style";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import { Link } from "react-router-dom";
-import OpcionNuevo from "./opcionNuevo";
 
 //import dialog
 import Button from "@material-ui/core/Button";
@@ -112,7 +111,6 @@ export default function Menu() {
     setOpen(false);
   };
 
-
   const handleChangeTipoPersona = (event) => {
     setTipoPersona(event.target.value);
   };
@@ -135,6 +133,7 @@ export default function Menu() {
         }
       );
   }, []);
+
   return (
     <div className={classes.main}>
       <Dialog
@@ -178,9 +177,11 @@ export default function Menu() {
           <Button autoFocus onClick={handleClose} color="primary">
             Disagree
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
+          <Link to="/formulario">
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Agree
+            </Button>
+          </Link>
         </DialogActions>
       </Dialog>
 
