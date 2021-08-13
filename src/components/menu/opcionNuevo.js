@@ -1,14 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import PersonIcon from "@material-ui/icons/Person";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StyleIcon from "@material-ui/icons/Style";
-import GroupAddIcon from "@material-ui/icons/GroupAdd";
-import { Link } from "react-router-dom";
-import OpcionNuevo from "./opcionNuevo";
-
-//import dialog
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -17,28 +7,15 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
+
+import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
-  externo: {
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    margin: theme.spacing(20, 0),
-  },
-  main: {
-    margin: theme.spacing(20, 0),
-  },
-  icon: {
-    fontSize: 100,
-  },
-  boton: {
-    flexDirection: "column",
-  },
-  oot: {
+  root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: "25ch",
@@ -92,30 +69,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Menu() {
+export default function OpcionNuevo() {
   const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
   const [tiposPersona, setTiposPersona] = useState([]);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [tipoPersona, setTipoPersona] = useState("");
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
-  const handleChangeTipoPersona = (event) => {
-    setTipoPersona(event.target.value);
-  };
 
   useEffect(() => {
     fetch(
@@ -135,8 +97,21 @@ export default function Menu() {
         }
       );
   }, []);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChangeTipoPersona = (event) => {
+    setTipoPersona(event.target.value);
+  };
+
   return (
-    <div className={classes.main}>
+    <div>
       <Dialog
         fullScreen={fullScreen}
         open={open}
@@ -183,58 +158,6 @@ export default function Menu() {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <div className={classes.externo}>
-        <Link to="/formulario">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PersonIcon className={classes.icon} />
-              <div>Nuevo</div>
-            </IconButton>
-          </label>
-        </Link>
-
-        <Link to="/productos">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <StyleIcon className={classes.icon} />
-              <div>Productos</div>
-            </IconButton>
-          </label>
-        </Link>
-        <label htmlFor="icon-button-file" onClick={handleClickOpen}>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <DescriptionIcon className={classes.icon} />
-            <div>Perfil Econ. Trans.</div>
-          </IconButton>
-        </label>
-      </div>
-      <div className={classes.externo}>
-        <Link to="/referencias">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <GroupAddIcon className={classes.icon} />
-              <div>Referencias</div>
-            </IconButton>
-          </label>
-        </Link>
-      </div>
     </div>
   );
 }
