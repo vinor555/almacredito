@@ -113,9 +113,8 @@ export default function Menu() {
   };
 
   const handleChangeTipoPersona = (event) => {
-    
     setTipoPersona(event.target.value);
-    console.log(tipoPersona)
+    console.log(tipoPersona);
   };
 
   useEffect(() => {
@@ -138,9 +137,9 @@ export default function Menu() {
   function TipoPersona(props) {
     const tipoPersona = props.tipoPersonaProps;
     if (tipoPersona === 1) {
-       setLink('formularioIndividual');
+      setLink("formularioIndividual");
     } else if (tipoPersona === 2) {
-      setLink('juridica');
+      setLink("formularioJuridico");
     }
     return "";
   }
@@ -189,7 +188,7 @@ export default function Menu() {
           <Button autoFocus onClick={handleClose} color="primary">
             Disagree
           </Button>
-          <Link to={`/${link}`}> 
+          <Link to={`/${link}`}>
             <Button onClick={handleClose} color="primary" autoFocus>
               Agree
             </Button>
@@ -198,18 +197,16 @@ export default function Menu() {
       </Dialog>
 
       <div className={classes.externo}>
-        <Link to="/formulario">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PersonIcon className={classes.icon} />
-              <div>Nuevo</div>
-            </IconButton>
-          </label>
-        </Link>
+        <label htmlFor="icon-button-file" onClick={handleClickOpen}>
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <PersonIcon className={classes.icon} />
+            <div>Nuevo</div>
+          </IconButton>
+        </label>
 
         <Link to="/productos">
           <label htmlFor="icon-button-file">

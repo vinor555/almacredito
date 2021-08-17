@@ -1,5 +1,5 @@
 import React from "react";
-import IndividualDatosPersonales from "../../tiposPersona/IndividualDatosPersonales";
+import JuridicaDatosPersonales from "../../tiposPersona/JuridicaDatosPersonales";
 
 //Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DatosPersonales() {
+export default function DatosJuridico() {
   const classes = useStyles();
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <IndividualDatosPersonales />
+      <JuridicaDatosPersonales />
     </form>
   );
 }

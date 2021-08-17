@@ -5,6 +5,7 @@ import Menu from "../menu/menu";
 import Referencias from "../referencias/Referencias";
 import NotFound from "../layout/NotFound";
 import FormularioIndividual from "../personas/individual/Formulario";
+import FormularioJuridico from "../personas/juridico/FormularioJuridico";
 
 const Routes = (props) => {
   return (
@@ -15,6 +16,7 @@ const Routes = (props) => {
         <Route exact path="/referencias" component={Referencias} />
         <Route exact path="/perfilEconomico" component={Referencias} />
         <Route exact path="/formularioIndividual" component={FormularioIndividual} />
+        <Route exact path="/formularioJuridico" component={FormularioJuridico} />
         <Route component={NotFound} />
       </Switch>
     </section>
