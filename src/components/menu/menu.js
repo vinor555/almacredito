@@ -102,6 +102,7 @@ export default function Menu() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [tipoPersona, setTipoPersona] = useState("");
+  const [link, setLink] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -112,7 +113,9 @@ export default function Menu() {
   };
 
   const handleChangeTipoPersona = (event) => {
+    
     setTipoPersona(event.target.value);
+    console.log(tipoPersona)
   };
 
   useEffect(() => {
@@ -122,8 +125,6 @@ export default function Menu() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log("TESTEANDO");
-          console.log(data.list);
           setIsLoaded(true);
           setTiposPersona(data.list);
         },
@@ -133,6 +134,16 @@ export default function Menu() {
         }
       );
   }, []);
+
+  function TipoPersona(props) {
+    const tipoPersona = props.tipoPersonaProps;
+    if (tipoPersona === 1) {
+       setLink('formularioIndividual');
+    } else if (tipoPersona === 2) {
+      setLink('juridica');
+    }
+    return "";
+  }
 
   return (
     <div className={classes.main}>
@@ -172,12 +183,13 @@ export default function Menu() {
               ))}
             </Select>
           </FormControl>
+          <TipoPersona tipoPersonaProps={tipoPersona} />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
             Disagree
           </Button>
-          <Link to="/formulario">
+          <Link to={`/${link}`}> 
             <Button onClick={handleClose} color="primary" autoFocus>
               Agree
             </Button>
