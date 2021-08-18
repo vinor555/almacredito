@@ -8,6 +8,8 @@ import RepresentanteLegal from "./RepresentanteLegal";
 import Direcciones from "./Direcciones";
 import ReferenciasJuridicas from "../../referencias/ReferenciasJuridicas";
 import DatosComplementarios from "./DatosComplementarios";
+import Cpe from "./Cpe";
+import Accionistas from "./Accionistas";
 
 //material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,6 +49,8 @@ function getSteps() {
     "Referencias",
     "Información Económica",
     "Datos Complementarios",
+    "CPE",
+    "Accionistas",
   ];
 }
 
@@ -70,6 +74,10 @@ function getStepContent(stepIndex) {
       return <InformacionEconomica />;
     case 8:
       return <DatosComplementarios />;
+    case 9:
+      return <Cpe />;
+    case 10:
+      return <Accionistas />;
     default:
       return "Unknown stepIndex";
   }
