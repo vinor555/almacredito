@@ -69,22 +69,10 @@ const useStyles = makeStyles((theme) => ({
 export default function DatosPersonales() {
   const classes = useStyles();
   const [tipoPersona, setTipoPersona] = useState("");
-  const [tipoID, setTipoID] = useState("");
-  const [departamento, setDepartamento] = useState(1);
-  const [municipio, setMunicipio] = useState(5);
-  const [estadoCivil, setEstadoCivil] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [nivelAcademico, setNivelAcademico] = useState("");
-
-  const [selectedDate, setSelectedDate] = useState(
-    new Date("1985-06-15T21:11:54")
-  );
 
   //consumir el servicio de departamentos
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [departamentos, setDepartamentos] = useState([]);
-  const [municipios, setMunicipios] = useState([]);
   const [tiposPersona, setTiposPersona] = useState([]);
 
   useEffect(() => {
@@ -92,8 +80,6 @@ export default function DatosPersonales() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log("TESTEANDO");
-          console.log(data.list);
           setIsLoaded(true);
           setTiposPersona(data.list);
         },
@@ -104,82 +90,17 @@ export default function DatosPersonales() {
       );
   }, []);
 
-  useEffect(() => {
-    fetch(
-      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/all"
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          console.log(data.departamentos);
-          setIsLoaded(true);
-          setDepartamentos(data.departamentos);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
+  
 
-  useEffect(() => {
-    fetch(
-      `https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamento}`
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          console.log(data.municipios);
-          setIsLoaded(true);
-          setMunicipios(data.municipios);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, [departamento]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const handleChangeTipoPersona = (event) => {
     setTipoPersona(event.target.value);
   };
 
-  const handleChangeTipoID = (event) => {
-    setTipoID(event.target.value);
-  };
+ 
 
-  const handleChangeDepartamento = (event) => {
-    setDepartamento(event.target.value);
-    console.log(departamento);
-  };
 
-  const handleChangeMunicipio = (event) => {
-    setMunicipio(event.target.value);
-  };
-
-  const handleChangeSexo = (event) => {
-    setSexo(event.target.value);
-  };
-
-  const handleChangeEstadoCivil = (event) => {
-    setEstadoCivil(event.target.value);
-  };
-
-  const handleChangeNivelAcademico = (event) => {
-    setNivelAcademico(event.target.value);
-  };
-
-  const DividerWithText = ({ children }) => {
-    return (
-      <div className={classes.container}>
-        <span className={classes.content}>{children}</span>
-      </div>
-    );
-  };
 
   function TipoPersona(props) {
     const tipoPersona = props.tipoPersonaProps;

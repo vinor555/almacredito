@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListaRepresentantes from "./ListaRepresentantes";
 //Material UI
 
@@ -8,7 +8,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import "date-fns";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import "date-fns";
@@ -83,6 +82,9 @@ export default function JuridicaDatosPersonales() {
   const [tipoID, setTipoID] = useState("");
   const [tipoSociedad, setTipoSociedad] = useState();
   const [tipoActividad, setTipoActividad] = useState();
+  const [tiposSociedad, setTiposSociedad] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [formacion, setFormacion] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -114,6 +116,23 @@ export default function JuridicaDatosPersonales() {
     setSelectedDate(date);
   };
 
+  useEffect(() => {
+    fetch(
+      "https://PRO-005-GDT-004.chncentral.chn.com.gt:9443/middleware/catalogos/tiposSociedad/all"
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          setIsLoaded(true);
+          setTiposSociedad(data.list);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
   const DividerWithText = ({ children }) => {
     return (
       <div className={classes.container}>
@@ -126,14 +145,6 @@ export default function JuridicaDatosPersonales() {
     <form className={classes.root} noValidate autoComplete="off">
       <DividerWithText>Identificación</DividerWithText>
       <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="No. ID"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
         <FormControl
           variant="outlined"
           className={classes.formControl}
@@ -154,12 +165,20 @@ export default function JuridicaDatosPersonales() {
             <MenuItem value="PASS">Pasaporte</MenuItem>
           </Select>
         </FormControl>
+        <TextField
+          required
+          id="outlined-required"
+          label="No. ID"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+        />
       </div>
       <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
-          className={classes.formControl}
+          className={classes.formControlLarge}
           required
           size="small"
         >
@@ -173,9 +192,14 @@ export default function JuridicaDatosPersonales() {
             onChange={handleChangeTipoSociedad}
             label="Departamento"
           >
-            <MenuItem key={4} value={4}>
-              Sociedad Anonima
-            </MenuItem>
+            {tiposSociedad.map((tipoSociedad) => (
+              <MenuItem
+                key={tipoSociedad.codigoTipoSociedad}
+                value={tipoSociedad.codigoTipoSociedad}
+              >
+                {tipoSociedad.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
