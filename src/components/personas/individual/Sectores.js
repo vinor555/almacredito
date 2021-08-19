@@ -82,16 +82,9 @@ export default function Sectores() {
     setAgrupacion(event.target.value);
   };
 
-  const DividerWithText = ({ children }) => {
-    return (
-      <div className={classes.container}>
-        <span className={classes.content}>{children}</span>
-      </div>
-    );
-  };
+  
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>
         <FormControlLabel
           className={classes.formControlSwitch}

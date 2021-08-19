@@ -25,14 +25,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NuevaUbicacionProveedor() {
   const classes = useStyles();
-  const [nacionalidad, setNacionalidad] = useState("");
   const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
   const [municipioNacNac, setMunicipioNacNac] = useState("");
   const [paisExt, setPaisExt] = useState("");
 
-  const handleChangeNacionalidad = (event) => {
-    setNacionalidad(event.target.value);
-  };
+  
 
   const handleChangeDepartamentoNacNac = (event) => {
     setDepartamentoNacNac(event.target.value);
