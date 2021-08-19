@@ -29,6 +29,7 @@ export default function NuevoPep() {
   const [condicionPep, setCondicionPep] = useState("");
   const [generoPep, setGeneroPep] = useState("");
   const [paisPep, setPaisPep] = useState("");
+  const [parentesco, setParentesco] = useState("");
 
   const handleChangeTipoPep = (event) => {
     setTipoPep(event.target.value);
@@ -44,6 +45,10 @@ export default function NuevoPep() {
 
   const handleChangePaisPep = (event) => {
     setPaisPep(event.target.value);
+  };
+
+  const handleChangeParentesco = (event) => {
+    setParentesco(event.target.value);
   };
 
   return (
@@ -67,6 +72,28 @@ export default function NuevoPep() {
           >
             <MenuItem value="F">FAMILIAR</MenuItem>
             <MenuItem value="A">ASOCIADO</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Parentesco
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={parentesco}
+            onChange={handleChangeParentesco}
+            label="Parentesco"
+          >
+            <MenuItem value="F">CONYUGE</MenuItem>
+            <MenuItem value="A">HERMANO(A)</MenuItem>
           </Select>
         </FormControl>
       </div>
