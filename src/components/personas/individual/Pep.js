@@ -4,6 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
+import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import Typography from "@material-ui/core/Typography";
@@ -26,6 +27,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import PersonIcon from "@material-ui/icons/Person";
+
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,10 +60,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      width: "25ch",
     },
   },
   formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    width: "25ch",
+  },
+  formControlLG: {
     margin: theme.spacing(1),
     minWidth: 120,
     width: "50ch",
@@ -111,6 +121,8 @@ export default function Pep() {
   });
   const theme = useTheme();
   const [value, setValue] = useState(0);
+  const [pais, setPais] = useState("");
+  const [riqueza, setRiqueza] = useState("");
 
   const [open, setOpen] = React.useState(false);
 
@@ -139,6 +151,13 @@ export default function Pep() {
 
   const handleChangeIndex = (index) => {
     setValue(index);
+  };
+
+  const handleChangePais = (event) => {
+    setPais(event.target.value);
+  };
+  const handleChangeRiqueza = (event) => {
+    setRiqueza(event.target.value);
   };
 
   const transitionDuration = {
@@ -193,6 +212,85 @@ export default function Pep() {
             />
           }
           label="¿El solicitante es una Persona Expuesta Politicamente (PEP)?"
+        />
+      </div>
+      <div className={classes.section1}>
+        <TextField
+          required
+          id="outlined-required"
+          label="Institución en donde laboró o labora actualmente"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          className={classes.formControlLG}
+        />
+      </div>
+      <div className={classes.section1}>
+        <TextField
+          required
+          id="outlined-required"
+          label="Cargo que desempeñaba o desempeña actualmente"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          className={classes.formControlLG}
+        />
+      </div>
+
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            País de la Institución
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={pais}
+            onChange={handleChangePais}
+            label="Tipo de Empresa"
+          >
+            <MenuItem value="GT">GUATEMALA</MenuItem>
+            <MenuItem value="US">ESTADOS UNIDOS</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Origen de Riqueza
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={riqueza}
+            onChange={handleChangeRiqueza}
+            label="Tipo de Empresa"
+          >
+            <MenuItem value="GT">HERENCIA</MenuItem>
+            <MenuItem value="US">NEGOCIO PROPIO</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <div className={classes.section1}>
+        <TextField
+          required
+          id="outlined-required"
+          label="Otro origen de Riqueza"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          className={classes.formControlLG}
         />
       </div>
       <DividerWithText>
