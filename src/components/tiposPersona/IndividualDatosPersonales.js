@@ -28,26 +28,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     width: "25ch",
   },
-  formControlDir: {
-    width: "100ch",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  rootCard: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
+  
   section1: {
     margin: theme.spacing(1, 1),
   },
@@ -55,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     alignItems: "center",
-  },
-  border: {
-    borderBottom: "1px solid lightgray",
-    width: "100%",
   },
   content: {
     paddingTop: theme.spacing(0.5),
@@ -79,6 +56,10 @@ export default function IndividualDatosPersonales() {
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
   const [nivelAcademico, setNivelAcademico] = useState("");
+  const [nacionalidad, setNacionalidad] = useState("");
+  const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
+  const [municipioNacNac, setMunicipioNacNac] = useState(5);
+  const [paisExt, setPaisExt] = useState("");
 
   const [selectedDate, setSelectedDate] = useState(
     new Date("1985-06-15T21:11:54")
@@ -89,6 +70,7 @@ export default function IndividualDatosPersonales() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
+  const [paises, setPaises] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -126,6 +108,28 @@ export default function IndividualDatosPersonales() {
       );
   }, [departamento]);
 
+  useEffect(() => {
+    fetch(
+      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/paises/all"
+    )
+      .then((res) => res.json())
+      .then(
+        (data) => {
+          console.log(data.paises);
+          setIsLoaded(true);
+          setPaises(data.paises);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  const handleChangeNacionalidad = (event) => {
+    setNacionalidad(event.target.value);
+  };
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -155,6 +159,18 @@ export default function IndividualDatosPersonales() {
     setNivelAcademico(event.target.value);
   };
 
+  const handleChangeDepartamentoNacNac = (event) => {
+    setDepartamentoNacNac(event.target.value);
+  };
+
+  const handleChangeMunicipioNacNac = (event) => {
+    setMunicipioNacNac(event.target.value);
+  };
+
+  const handleChangePaisExt = (event) => {
+    setPaisExt(event.target.value);
+  };
+
   const DividerWithText = ({ children }) => {
     return (
       <div className={classes.container}>
@@ -167,14 +183,6 @@ export default function IndividualDatosPersonales() {
     <form className={classes.root} noValidate autoComplete="off">
       <DividerWithText>Identificación</DividerWithText>
       <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="No. ID"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
         <FormControl
           variant="outlined"
           className={classes.formControl}
@@ -195,6 +203,14 @@ export default function IndividualDatosPersonales() {
             <MenuItem value="PASS">Pasaporte</MenuItem>
           </Select>
         </FormControl>
+        <TextField
+          required
+          id="outlined-required"
+          label="No. ID"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+        />
       </div>
       <DividerWithText>Lugar Emisión Identificación</DividerWithText>
       <div className={classes.section1}>
@@ -379,6 +395,45 @@ export default function IndividualDatosPersonales() {
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
+            Nacionalidad
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={nacionalidad}
+            onChange={handleChangeNacionalidad}
+            label="Nacionalidad"
+          >
+            {paises.map((pais) => (
+              <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
+                {pais.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            variant="outline"
+            margin="normal"
+            id="date-picker-dialog"
+            label="Fecha de Nacimiento"
+            format="dd/MM/yyyy"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
+        </MuiPickersUtilsProvider>
+      </div>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
             Nivel Académico
           </InputLabel>
           <Select
@@ -411,8 +466,85 @@ export default function IndividualDatosPersonales() {
           size="small"
         />
       </div>
-      <ListaDirecciones />
-      <ListaCorreos />
+      <DividerWithText>Lugar Nacimiento Nacional</DividerWithText>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Departamento
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={departamentoNacNac}
+            onChange={handleChangeDepartamentoNacNac}
+            label="Departamento"
+          >
+            {departamentos.map((departamento) => (
+              <MenuItem
+                key={departamento.codigoDepartamento}
+                value={departamento.codigoDepartamento}
+              >
+                {departamento.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Municipio
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={municipioNacNac}
+            onChange={handleChangeMunicipioNacNac}
+            label="Municipio"
+          >
+            {municipios.map((municipio) => (
+              <MenuItem
+                key={municipio.codigoMunicipio}
+                value={municipio.descripcion}
+              >
+                {municipio.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+      <DividerWithText>Lugar Nacimiento Extranjero</DividerWithText>
+      <div className={classes.section1}>
+        <FormControl
+          variant="outlined"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={paisExt}
+            onChange={handleChangePaisExt}
+            label="País"
+          >
+            {paises.map((pais) => (
+              <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
+                {pais.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
     </form>
   );
 }
