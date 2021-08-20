@@ -7,6 +7,10 @@ import Pep from "./Pep";
 import Direcciones from "../juridico/Direcciones";
 import ReferenciasIndividual from "../../referencias/ReferenciasIndividual";
 import TrabajoActual from "./TrabajoActual";
+import OtrasOperaciones from "./OtrasOperaciones";
+import DatosComplementarios from "./DatosComplementarios";
+import Cpe from "./Cpe";
+import RangoServicios from "./RangoServicios";
 
 //material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -44,6 +48,10 @@ function getSteps() {
     "Referencias",
     "Trabajo Actual",
     "PEP",
+    "Otras Operaciones",
+    "Datos Complementarios",
+    "CPE",
+    "Rango Servicios",
     "Información Económica",
   ];
 }
@@ -65,6 +73,14 @@ function getStepContent(stepIndex) {
     case 6:
       return <Pep />;
     case 7:
+      return <OtrasOperaciones />;
+    case 8:
+      return <DatosComplementarios />;
+    case 9:
+      return <Cpe />;
+    case 10:
+      return <RangoServicios />;
+    case 11:
       return <InformacionEconomica />;
     default:
       return "Unknown stepIndex";

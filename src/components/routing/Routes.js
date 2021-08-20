@@ -6,7 +6,7 @@ import NotFound from "../layout/NotFound";
 import FormularioIndividual from "../personas/individual/Formulario";
 import FormularioJuridico from "../personas/juridico/FormularioJuridico";
 //import Secured from "../menu/Secured";
-import Key from "../menu/Key";
+//import Key from "../menu/Key";
 
 const Routes = (props) => {
   return (

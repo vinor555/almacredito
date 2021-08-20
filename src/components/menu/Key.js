@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+//import React, { Component } from "react";
 import Keycloak from "keycloak-js";
-import ReactDOM from 'react-dom';
-import App from "../../App";
+//import ReactDOM from 'react-dom';
+//import App from "../../App";
 
 //keycloak init options
 let initOptions = {
@@ -11,7 +11,7 @@ let initOptions = {
 
 let keycloak = Keycloak(initOptions);
 
-keycloak.init({ onLoad: initOptions.onLoad }).success((auth) => {
+keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
 
     if (!auth) {
         window.location.reload();
@@ -20,7 +20,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) => {
     }
 
     //React Render
-    ReactDOM.render(<App />, document.getElementById('root'));
+    //ReactDOM.render(<App />, document.getElementById('root'));
 
     localStorage.setItem("react-token", keycloak.token);
     localStorage.setItem("react-refresh-token", keycloak.refreshToken);
