@@ -5,6 +5,7 @@ import Referencias from "../referencias/Referencias";
 import NotFound from "../layout/NotFound";
 import FormularioIndividual from "../personas/individual/Formulario";
 import FormularioJuridico from "../personas/juridico/FormularioJuridico";
+import FormularioNino from "../personas/nino/FormularioNino";
 //import Secured from "../menu/Secured";
 //import Key from "../menu/Key";
 
@@ -24,6 +25,11 @@ const Routes = (props) => {
           exact
           path="/formularioJuridico"
           component={FormularioJuridico}
+        />
+        <Route
+          exact
+          path="/formularioNino"
+          component={FormularioNino}
         />
         <Route component={NotFound} />
       </Switch>
