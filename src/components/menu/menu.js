@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from "@material-ui/icons/Person";
@@ -19,6 +19,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+
+//Keycloak
+import Keycloak from "keycloak-js";
 
 const useStyles = makeStyles((theme) => ({
   externo: {
@@ -116,30 +119,13 @@ export default function Menu() {
     console.log(tipoPersona);
   };
 
-  useEffect(() => {
-    fetch(
-      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/tiposPersona/all"
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setIsLoaded(true);
-          setTiposPersona(data.list);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
-
   function TipoPersona(props) {
     const tipoPersona = props.tipoPersonaProps;
     if (tipoPersona === 1) {
       setLink("formularioIndividual");
     } else if (tipoPersona === 2) {
-      setLink("formularioJuridico");
-    }
+      setLink("formularioNino");
+    } 
     return "";
   }
 
@@ -171,14 +157,18 @@ export default function Menu() {
               onChange={handleChangeTipoPersona}
               label="Tipo de Persona"
             >
-              {tiposPersona.map((tipoPersona) => (
-                <MenuItem
-                  key={tipoPersona.codigoTipoPersona}
-                  value={tipoPersona.codigoTipoPersona}
-                >
-                  {tipoPersona.descripcion}
-                </MenuItem>
-              ))}
+              <MenuItem
+                key={1}
+                value={1}
+              >
+                INDIVIDUAL
+              </MenuItem>
+              <MenuItem
+                key={2}
+                value={2}
+              >
+                NIÑO
+              </MenuItem>
             </Select>
           </FormControl>
           <TipoPersona tipoPersonaProps={tipoPersona} />
@@ -203,43 +193,19 @@ export default function Menu() {
             component="span"
           >
             <PersonIcon className={classes.icon} />
-            <div>Nuevo</div>
+            <div>Persona</div>
           </IconButton>
         </label>
 
-        <Link to="/productos">
+        <Link to="/formularioJuridico">
           <label htmlFor="icon-button-file">
             <IconButton
               color="primary"
               aria-label="upload picture"
               component="span"
             >
-              <StyleIcon className={classes.icon} />
-              <div>Productos</div>
-            </IconButton>
-          </label>
-        </Link>
-        <label htmlFor="icon-button-file" onClick={handleClickOpen}>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <DescriptionIcon className={classes.icon} />
-            <div>Perfil Econ. Trans.</div>
-          </IconButton>
-        </label>
-      </div>
-      <div className={classes.externo}>
-        <Link to="/referencias">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <GroupAddIcon className={classes.icon} />
-              <div>Referencias</div>
+              <PersonIcon className={classes.icon} />
+              <div>Persona Juridica</div>
             </IconButton>
           </label>
         </Link>

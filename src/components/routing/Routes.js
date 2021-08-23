@@ -5,6 +5,9 @@ import Referencias from "../referencias/Referencias";
 import NotFound from "../layout/NotFound";
 import FormularioIndividual from "../personas/individual/Formulario";
 import FormularioJuridico from "../personas/juridico/FormularioJuridico";
+import FormularioNino from "../personas/nino/FormularioNino";
+//import Secured from "../menu/Secured";
+//import Key from "../menu/Key";
 
 const Routes = (props) => {
   return (
@@ -13,8 +16,21 @@ const Routes = (props) => {
         <Route exact path="/" component={Menu} />
         <Route exact path="/referencias" component={Referencias} />
         <Route exact path="/perfilEconomico" component={Referencias} />
-        <Route exact path="/formularioIndividual" component={FormularioIndividual} />
-        <Route exact path="/formularioJuridico" component={FormularioJuridico} />
+        <Route
+          exact
+          path="/formularioIndividual"
+          component={FormularioIndividual}
+        />
+        <Route
+          exact
+          path="/formularioJuridico"
+          component={FormularioJuridico}
+        />
+        <Route
+          exact
+          path="/formularioNino"
+          component={FormularioNino}
+        />
         <Route component={NotFound} />
       </Switch>
     </section>
