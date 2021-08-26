@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 //Material UI
-import TextField from "@material-ui/core/TextField";
+
 import { makeStyles } from "@material-ui/core/styles";
 
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
@@ -54,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Accionistas() {
   const classes = useStyles();
-  
+
   const [acciones, setAcciones] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -65,17 +61,16 @@ export default function Accionistas() {
     checkedB: true,
   });
 
-  
-
   const handleChangeAcciones = (event) => {
     setAcciones({ ...acciones, [event.target.name]: event.target.checked });
   };
 
   const handleChangeExtranjeros = (event) => {
-    setExtranjeros({ ...extranjeros, [event.target.name]: event.target.checked });
+    setExtranjeros({
+      ...extranjeros,
+      [event.target.name]: event.target.checked,
+    });
   };
-
-  
 
   const DividerWithText = ({ children }) => {
     return (
@@ -88,7 +83,7 @@ export default function Accionistas() {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <DividerWithText>Porcentaje Accionistas</DividerWithText>
-      
+
       <div className={classes.section1}>
         <FormControlLabel
           className={classes.formControlSwitch}
@@ -117,7 +112,6 @@ export default function Accionistas() {
           label="Cuenta con accionistas o socios con mas de 10% extranjeros"
         />
       </div>
-      
     </form>
   );
 }

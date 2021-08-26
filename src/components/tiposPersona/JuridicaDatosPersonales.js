@@ -83,8 +83,6 @@ export default function JuridicaDatosPersonales() {
   const [tipoSociedad, setTipoSociedad] = useState();
   const [tipoActividad, setTipoActividad] = useState();
   const [tiposSociedad, setTiposSociedad] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [formacion, setFormacion] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -123,12 +121,10 @@ export default function JuridicaDatosPersonales() {
       .then((res) => res.json())
       .then(
         (data) => {
-          setIsLoaded(true);
           setTiposSociedad(data.list);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);

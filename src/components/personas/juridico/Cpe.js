@@ -4,11 +4,7 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -169,7 +165,9 @@ export default function Cpe() {
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Nac o Ext</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">
+            Nac o Ext
+          </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"

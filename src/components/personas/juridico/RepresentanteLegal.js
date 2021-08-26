@@ -155,7 +155,7 @@ export default function RepresentanteLegal() {
             id="date-picker-dialog"
             label="Fecha Final Acta/Nomb."
             format="dd/MM/yyyy"
-            value={selectedDate}
+            value={selectedDateFinal}
             onChange={handleDateChangeFinal}
             KeyboardButtonProps={{
               "aria-label": "change date",

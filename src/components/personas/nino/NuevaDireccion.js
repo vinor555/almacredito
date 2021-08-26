@@ -47,8 +47,6 @@ export default function NuevaDireccion() {
   const [municipio, setMunicipio] = useState(5);
 
   //consumir el servicio de departamentos
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
 
@@ -59,13 +57,10 @@ export default function NuevaDireccion() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.departamentos);
-          setIsLoaded(true);
           setDepartamentos(data.departamentos);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -77,13 +72,11 @@ export default function NuevaDireccion() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.municipios);
-          setIsLoaded(true);
+          
           setMunicipios(data.municipios);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, [departamento]);

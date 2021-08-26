@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ListaDirecciones from "../dashboard/ListaDirecciones";
-import ListaCorreos from "../dashboard/ListaCorreos";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -28,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     width: "25ch",
   },
-  
+
   section1: {
     margin: theme.spacing(1, 1),
   },
@@ -66,8 +64,6 @@ export default function IndividualDatosPersonales() {
   );
 
   //consumir el servicio de departamentos
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [paises, setPaises] = useState([]);
@@ -79,13 +75,10 @@ export default function IndividualDatosPersonales() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.departamentos);
-          setIsLoaded(true);
           setDepartamentos(data.departamentos);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -97,13 +90,10 @@ export default function IndividualDatosPersonales() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.municipios);
-          setIsLoaded(true);
           setMunicipios(data.municipios);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, [departamento]);
@@ -115,13 +105,10 @@ export default function IndividualDatosPersonales() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.paises);
-          setIsLoaded(true);
           setPaises(data.paises);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);

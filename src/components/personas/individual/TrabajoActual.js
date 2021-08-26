@@ -66,8 +66,6 @@ export default function TrabajoActual() {
   );
 
   //consumir el servicio de departamentos
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [paises, setPaises] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
@@ -107,13 +105,10 @@ export default function TrabajoActual() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.paises);
-          setIsLoaded(true);
           setPaises(data.paises);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -125,13 +120,10 @@ export default function TrabajoActual() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.departamentos);
-          setIsLoaded(true);
           setDepartamentos(data.departamentos);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -143,13 +135,10 @@ export default function TrabajoActual() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.municipios);
-          setIsLoaded(true);
           setMunicipios(data.municipios);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, [departamentoNacNac]);

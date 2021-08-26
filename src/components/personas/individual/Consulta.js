@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+//Material UI
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
+import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -14,10 +18,20 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-    width: "50ch",
+    width: "25ch",
   },
+  button: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    width: "15ch",
+  },
+
   section1: {
     margin: theme.spacing(1, 1),
+  },
+
+  sectionButton: {
+    margin: theme.spacing(2, 1),
   },
 
   container: {
@@ -35,12 +49,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Huella() {
+export default function Consulta() {
   const classes = useStyles();
-  const [motivo, setMotivo] = useState("");
+  const [tipoId, setTipoId] = useState("");
 
-  const handleChangeMotivo = (event) => {
-    setMotivo(event.target.value);
+  const handleChangeTipoId = (event) => {
+    setTipoId(event.target.value);
   };
 
   const DividerWithText = ({ children }) => {
@@ -53,7 +67,7 @@ export default function Huella() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>Grabación de Huella</DividerWithText>
+      <DividerWithText>Consulta Individual</DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -62,20 +76,42 @@ export default function Huella() {
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Motivo Excepción
+            Tipo ID
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
-            value={motivo}
-            onChange={handleChangeMotivo}
-            label="Nacionalidad"
+            value={tipoId}
+            onChange={handleChangeTipoId}
+            label="tipoId"
           >
             <MenuItem key={1} value={1}>
-              Defecto Fisico en las manos
+              DPI
+            </MenuItem>
+            <MenuItem key={2} value={2}>
+              Pasaporte
             </MenuItem>
           </Select>
         </FormControl>
+        <TextField
+          id="outlined-required"
+          label="Núnmero ID"
+          defaultValue=""
+          variant="outlined"
+          size="small"
+          className={classes.formControl}
+        />
+      </div>
+      <div className={classes.sectionButton}>
+        <Link to="/formularioIndividual">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Consultar
+          </Button>
+        </Link>
       </div>
     </form>
   );

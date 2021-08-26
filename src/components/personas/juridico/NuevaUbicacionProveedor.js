@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -29,8 +28,6 @@ export default function NuevaUbicacionProveedor() {
   const [municipioNacNac, setMunicipioNacNac] = useState("");
   const [paisExt, setPaisExt] = useState("");
 
-  
-
   const handleChangeDepartamentoNacNac = (event) => {
     setDepartamentoNacNac(event.target.value);
   };
@@ -50,13 +47,10 @@ export default function NuevaUbicacionProveedor() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.paises);
-          setIsLoaded(true);
           setPaises(data.paises);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -68,13 +62,10 @@ export default function NuevaUbicacionProveedor() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.departamentos);
-          setIsLoaded(true);
           setDepartamentos(data.departamentos);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, []);
@@ -86,20 +77,15 @@ export default function NuevaUbicacionProveedor() {
       .then((res) => res.json())
       .then(
         (data) => {
-          console.log(data.municipios);
-          setIsLoaded(true);
           setMunicipios(data.municipios);
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          console.log(error);
         }
       );
   }, [departamentoNacNac]);
 
   //consumir el servicio de departamentos
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [paises, setPaises] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
