@@ -203,20 +203,21 @@ export default class TutorialsList extends Component {
               ))}
             </select>
           </div>
-
-          <button
-            className="m-3 btn btn-sm btn-primary"
-            color="primary"
-            onClick={this.removeAllTutorials}
-          >
-            Remove All
-          </button>
+          <Link to="/add">
+            <button
+              className="m-3 btn btn-sm btn-primary"
+              color="primary"
+              //onClick={this.removeAllTutorials}
+            >
+              Crear Nuevo
+            </button>
+          </Link>
         </div>
         <div className="col-md-6">
           {console.log(currentTutorial)}
           {currentTutorial ? (
             <div>
-              <h4>Tutorial</h4>
+              <h4>{currentTutorial.nombreCompleto}</h4>
               <div>
                 <label>
                   <strong>Nombre:</strong>
@@ -241,12 +242,18 @@ export default class TutorialsList extends Component {
                 </label>{" "}
                 {currentTutorial.telefonoOficina}
               </div>
+              <div>
+                <label>
+                  <strong>Parentesco:</strong>
+                </label>{" "}
+                {currentTutorial.parentesco}
+              </div>
 
               <Link
                 to={"/tutorials/" + currentTutorial.codigoReferenciaPersonal}
                 className="badge badge-warning"
               >
-                Edit
+                Editar
               </Link>
             </div>
           ) : (

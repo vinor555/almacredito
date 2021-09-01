@@ -122,14 +122,11 @@ export default class Tutorial extends Component {
   }
 
   updateTutorial() {
-    TutorialDataService.update(
-      this.state.currentTutorial.id,
-      this.state.currentTutorial
-    )
+    TutorialDataService.update(this.state.currentTutorial)
       .then((response) => {
         console.log(response.data);
         this.setState({
-          message: "The tutorial was updated successfully!",
+          message: "Referencia Personal fue actualizada correctamente!",
         });
       })
       .catch((e) => {
@@ -138,7 +135,13 @@ export default class Tutorial extends Component {
   }
 
   deleteTutorial() {
-    TutorialDataService.delete(this.state.currentTutorial.id)
+    var data = {
+      tipoCodigoCliente: this.state.currentTutorial.tipoCodigoCliente,
+      codigoCliente: this.state.currentTutorial.codigoCliente,
+      codigoReferenciaPersonal:
+        this.state.currentTutorial.codigoReferenciaPersonal,
+    };
+    TutorialDataService.delete(data)
       .then((response) => {
         console.log(response.data);
         this.props.history.push("/tutorials");
@@ -208,31 +211,20 @@ export default class Tutorial extends Component {
                   onChange={this.onChangeParentesco}
                 />
               </div>
-
-              
             </form>
 
-            {currentTutorial.published ? (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(false)}
-              >
-                UnPublish
-              </button>
-            ) : (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(true)}
-              >
-                Publish
-              </button>
-            )}
+            <button
+              className="badge badge-primary mr-2"
+              onClick={() => this.updatePublished(true)}
+            >
+              Atras
+            </button>
 
             <button
               className="badge badge-danger mr-2"
               onClick={this.deleteTutorial}
             >
-              Delete
+              Borrar
             </button>
 
             <button
@@ -240,7 +232,7 @@ export default class Tutorial extends Component {
               className="badge badge-success"
               onClick={this.updateTutorial}
             >
-              Update
+              Actualizar
             </button>
             <p>{this.state.message}</p>
           </div>

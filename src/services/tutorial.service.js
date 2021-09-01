@@ -12,16 +12,16 @@ class TutorialDataService {
   }
 
   create(data) {
-    return http.post("/tutorials", data);
+    console.log(data);
+    return http.post("/clientes/referenciaPersonal/save", data);
   }
 
-  update(id, data) {
-    console.log(data);
+  update(data) {
     return http.post(`/clientes/referenciaPersonal/save`, data);
   }
 
-  delete(id) {
-    return http.delete(`/tutorials/${id}`);
+  delete(data) {
+    return http.delete(`/clientes/referenciaPersonal`, data);
   }
 
   deleteAll() {

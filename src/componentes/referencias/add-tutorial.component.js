@@ -4,46 +4,76 @@ import TutorialDataService from "../../services/tutorial.service";
 export default class AddTutorial extends Component {
   constructor(props) {
     super(props);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeNombre = this.onChangeNombre.bind(this);
+    this.onChangeDireccion = this.onChangeDireccion.bind(this);
+    this.onChangeTelefono = this.onChangeTelefono.bind(this);
+    this.onChangeTelefonoOficina = this.onChangeTelefonoOficina.bind(this);
+    this.onChangeParentesco = this.onChangeParentesco.bind(this);
     this.saveTutorial = this.saveTutorial.bind(this);
     this.newTutorial = this.newTutorial.bind(this);
 
     this.state = {
       id: null,
-      title: "",
-      description: "",
+      nombre: "",
+      direccion: "",
+      telefono: "",
+      telefonoOficina: "",
+      parentesco: "",
       published: false,
 
       submitted: false,
     };
   }
 
-  onChangeTitle(e) {
+  onChangeNombre(e) {
     this.setState({
-      title: e.target.value,
+      nombre: e.target.value,
     });
   }
 
-  onChangeDescription(e) {
+  onChangeDireccion(e) {
     this.setState({
-      description: e.target.value,
+      direccion: e.target.value,
+    });
+  }
+
+  onChangeTelefono(e) {
+    this.setState({
+      telefono: e.target.value,
+    });
+  }
+
+  onChangeTelefonoOficina(e) {
+    this.setState({
+      telefonoOficina: e.target.value,
+    });
+  }
+
+  onChangeParentesco(e) {
+    this.setState({
+      parentesco: e.target.value,
     });
   }
 
   saveTutorial() {
     var data = {
-      title: this.state.title,
-      description: this.state.description,
+      codigoCliente: "099000015004",
+      nombreCompleto: this.state.nombre,
+      direccion: this.state.direccion,
+      telefono: this.state.telefono,
+      telefonoOficina: this.state.telefonoOficina,
+      parentesco: this.state.parentesco,
     };
+
 
     TutorialDataService.create(data)
       .then((response) => {
         this.setState({
-          id: response.data.id,
-          title: response.data.title,
-          description: response.data.description,
-          published: response.data.published,
+          nombre: response.data.nombre,
+          direccion: response.data.direccion,
+          telefono: response.data.telefono,
+          telefonoOficina: response.data.telefonoOficina,
+          parentesco: response.data.parentesco,
 
           submitted: true,
         });
@@ -57,9 +87,11 @@ export default class AddTutorial extends Component {
   newTutorial() {
     this.setState({
       id: null,
-      title: "",
-      description: "",
-      published: false,
+      nombre: "",
+      direccion: "",
+      telefono: "",
+      telefonoOficina: "",
+      parentesco: "",
 
       submitted: false,
     });
@@ -78,33 +110,72 @@ export default class AddTutorial extends Component {
         ) : (
           <div>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="nombre">Nombre</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
+                id="nombre"
                 required
-                value={this.state.title}
-                onChange={this.onChangeTitle}
-                name="title"
+                value={this.state.nombre}
+                onChange={this.onChangeNombre}
+                name="nombre"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="direccion">Dirección</label>
               <input
                 type="text"
                 className="form-control"
-                id="description"
+                id="direccion"
                 required
-                value={this.state.description}
-                onChange={this.onChangeDescription}
-                name="description"
+                value={this.state.Direccion}
+                onChange={this.onChangeDireccion}
+                name="direccion"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="telefono">Teléfono</label>
+              <input
+                type="text"
+                className="form-control"
+                id="telefono"
+                required
+                value={this.state.telefono}
+                onChange={this.onChangeTelefono}
+                name="telefono"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="telefonoOficina">Teléfono Oficina</label>
+              <input
+                type="text"
+                className="form-control"
+                id="telefonoOficina"
+                required
+                value={this.state.telefonoOficina}
+                onChange={this.onChangeTelefonoOficina}
+                name="telefonoOficina"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="parentesco">Parentesco</label>
+              <input
+                type="text"
+                className="form-control"
+                id="parentesco"
+                required
+                value={this.state.parentesco}
+                onChange={this.onChangeParentesco}
+                name="parentesco"
               />
             </div>
 
             <button onClick={this.saveTutorial} className="btn btn-success">
-              Submit
+              Guardar
             </button>
           </div>
         )}
