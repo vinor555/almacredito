@@ -8,6 +8,10 @@ import FormularioJuridico from "../personas/juridico/FormularioJuridico";
 import FormularioNino from "../personas/nino/FormularioNino";
 import ConsultaIndividual from "../personas/individual/Consulta";
 import ReferenciasIndividual from "../../componentes/referencias/ReferenciasIndividual";
+import tutorialsListComponent from "../../componentes/referencias/tutorials-list.component";
+import AddTutorial from "../../componentes/referencias/add-tutorial.component";
+import Tutorial from "../../componentes/referencias/tutorial.component";
+
 //import Secured from "../menu/Secured";
 //import Key from "../menu/Key";
 
@@ -17,7 +21,7 @@ const Routes = (props) => {
       <Switch>
         <Route exact path="/" component={Menu} />
         <Route exact path="/referencias" component={Referencias} />
-        <Route exact path="/referenciasIndividual" component={ReferenciasIndividual} />
+        <Route exact path="/referenciasIndividual" component={tutorialsListComponent} />
         <Route exact path="/perfilEconomico" component={Referencias} />
         <Route
           exact
@@ -32,6 +36,10 @@ const Routes = (props) => {
         <Route exact path="/formularioNino" component={FormularioNino} />
 
         <Route exact path="/consulta" component={ConsultaIndividual} />
+
+        <Route exact path={["/tutorials"]} component={tutorialsListComponent} />
+        <Route path="/tutorials/:id" component={Tutorial} />
+        <Route exact path={["/add"]} component={AddTutorial} />
         <Route component={NotFound} />
       </Switch>
     </section>

@@ -1,92 +1,50 @@
-import React from "react";
-//import NuevaReferenciaPersonal from "./NuevaReferenciaPersonal";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../App.css";
 
-import PropTypes from "prop-types";
-import Typography from "@material-ui/core/Typography";
-import { green } from "@material-ui/core/colors";
-import Box from "@material-ui/core/Box";
+import AddTutorial from "./add-tutorial.component";
+import Tutorial from "./tutorial.component";
+import TutorialsList from "./tutorials-list.component";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+class ReferenciasPersonales extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <a href="/tutorials" className="navbar-brand">
+              bezKoder
+            </a>
+            <div className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to={"/tutorials"} className="nav-link">
+                  Tutorials
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/add"} className="nav-link">
+                  Add
+                </Link>
+              </li>
+            </div>
+          </nav>
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`action-tabpanel-${index}`}
-      aria-labelledby={`action-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
+          <div className="container mt-3">
+            <Switch>
+              <Route
+                exact
+                path={["/", "/tutorials"]}
+                component={TutorialsList}
+              />
+              <Route exact path="/add" component={AddTutorial} />
+              <Route path="/tutorials/:id" component={Tutorial} />
+            </Switch>
+          </div>
+        </div>
+      </Router>
+    );
+  }
 }
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    width: "50ch",
-  },
-  section1: {
-    margin: theme.spacing(1, 1),
-  },
-
-  container: {
-    display: "flex",
-    alignItems: "center",
-  },
-  content: {
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    fontWeight: 500,
-    fontSize: 20,
-    color: "black",
-  },
-  rootList: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
-    position: "relative",
-    minHeight: 200,
-  },
-  fab: {
-    position: "absolute",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-  fabGreen: {
-    color: theme.palette.common.white,
-    backgroundColor: green[500],
-    "&:hover": {
-      backgroundColor: green[600],
-    },
-  },
-}));
-
-export default function ReferenciasPersonales() {
-  const classes = useStyles();
-
-  return (
-    <>
-      <div className={classes.rootList}>
-        <h1>Referencias</h1>
-      </div>
-    </>
-  );
-}
+export default ReferenciasPersonales;
+//export default withStyles(styles)(ReferenciasPersonales);
