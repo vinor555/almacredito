@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TutorialDataService from "../../services/tutorial.service";
+import { Link } from "react-router-dom";
 
 export default class AddTutorial extends Component {
   constructor(props) {
@@ -65,7 +66,6 @@ export default class AddTutorial extends Component {
       parentesco: this.state.parentesco,
     };
 
-
     TutorialDataService.create(data)
       .then((response) => {
         this.setState({
@@ -102,9 +102,9 @@ export default class AddTutorial extends Component {
       <div className="submit-form">
         {this.state.submitted ? (
           <div>
-            <h4>You submitted successfully!</h4>
+            <h4>Referencia personal creada correctamente!</h4>
             <button className="btn btn-success" onClick={this.newTutorial}>
-              Add
+              Crear Nuevo
             </button>
           </div>
         ) : (
@@ -173,7 +173,7 @@ export default class AddTutorial extends Component {
                 name="parentesco"
               />
             </div>
-
+            <Link to="/tutorials"><button className="btn btn-success">Atras</button></Link>
             <button onClick={this.saveTutorial} className="btn btn-success">
               Guardar
             </button>

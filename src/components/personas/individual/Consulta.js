@@ -9,6 +9,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import ConsultaIndividual from "../../../componentes/consulta/ConsultaIndividual";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -102,6 +103,7 @@ export default function Consulta() {
           className={classes.formControl}
         />
       </div>
+      <ConsultaIndividual />
       <div className={classes.sectionButton}>
         <Link to="/formularioIndividual">
           <Button

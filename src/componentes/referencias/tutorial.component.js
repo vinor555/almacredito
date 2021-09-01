@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TutorialDataService from "../../services/tutorial.service";
+import { Link } from "react-router-dom";
 
 export default class Tutorial extends Component {
   constructor(props) {
@@ -136,7 +137,6 @@ export default class Tutorial extends Component {
 
   deleteTutorial() {
     var data = {
-      tipoCodigoCliente: this.state.currentTutorial.tipoCodigoCliente,
       codigoCliente: this.state.currentTutorial.codigoCliente,
       codigoReferenciaPersonal:
         this.state.currentTutorial.codigoReferenciaPersonal,
@@ -147,6 +147,7 @@ export default class Tutorial extends Component {
         this.props.history.push("/tutorials");
       })
       .catch((e) => {
+        console.log(data);
         console.log(e);
       });
   }
@@ -212,13 +213,14 @@ export default class Tutorial extends Component {
                 />
               </div>
             </form>
-
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => this.updatePublished(true)}
-            >
-              Atras
-            </button>
+            <Link to="/tutorials">
+              <button
+                className="badge badge-primary mr-2"
+                onClick={() => this.updatePublished(true)}
+              >
+                Atras
+              </button>
+            </Link>
 
             <button
               className="badge badge-danger mr-2"

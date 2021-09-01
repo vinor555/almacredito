@@ -1,4 +1,4 @@
-import http from "../http-common";
+import http, { individual } from "../http-common";
 
 class TutorialDataService {
   getAll(params) {
@@ -13,19 +13,23 @@ class TutorialDataService {
 
   create(data) {
     console.log(data);
-    return http.post("/clientes/referenciaPersonal/save", data);
+    return http.post("/clientes/referenciaPersonal", data);
   }
 
   update(data) {
-    return http.post(`/clientes/referenciaPersonal/save`, data);
+    return http.put(`/clientes/referenciaPersonal`, data);
   }
 
   delete(data) {
-    return http.delete(`/clientes/referenciaPersonal`, data);
+    return http.delete(`/clientes/referenciaPersonal?codigoCliente=${data.codigoCliente}&codigoReferenciaPersonal=${data.codigoReferenciaPersonal}`);
   }
 
   deleteAll() {
     return http.delete("/tutorials");
+  }
+
+  getAllIndividual(params) {
+    return individual.get("/clientes/individual", { params });
   }
 }
 

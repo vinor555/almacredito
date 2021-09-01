@@ -5,7 +5,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import PersonIcon from "@material-ui/icons/Person";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
-export default class TutorialsList extends Component {
+export default class ConsultaIndividual extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -68,7 +68,7 @@ export default class TutorialsList extends Component {
 
     const params = this.getRequestParams(searchTitle, page, pageSize);
 
-    TutorialDataService.getAll(params)
+    TutorialDataService.getAllIndividual(params)
       .then((response) => {
         const { totalPages } = response.data;
         const tutorials = response.data.data;
@@ -146,7 +146,6 @@ export default class TutorialsList extends Component {
 
     return (
       <div className="list row">
-        <h4>Referencias Personales</h4>
         <div className="col-md-8">
           <div className="input-group mb-3">
             <input
@@ -169,10 +168,6 @@ export default class TutorialsList extends Component {
         </div>
         <div className="col-md-6">
           <ul className="list-group">
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-
             {tutorials &&
               tutorials.map((tutorial, index) => (
                 <li
@@ -208,7 +203,7 @@ export default class TutorialsList extends Component {
               ))}
             </select>
           </div>
-          <Link to="/add">
+          <Link to="/formularioIndividual">
             <button
               className="m-3 btn btn-sm btn-primary"
               color="primary"
@@ -223,36 +218,26 @@ export default class TutorialsList extends Component {
           {currentTutorial ? (
             <div>
               <h4>{currentTutorial.nombreCompleto}</h4>
+              
               <div>
                 <label>
-                  <strong>Nombre:</strong>
+                  <strong>Codigo Cliente:</strong>
                 </label>{" "}
-                {currentTutorial.nombreCompleto}
+                {currentTutorial.codigoCliente}
               </div>
               <div>
                 <label>
-                  <strong>Dirección:</strong>
+                  <strong>Número Id:</strong>
                 </label>{" "}
-                {currentTutorial.direccion}
+                {currentTutorial.numeroDocumentoIdentificacion}
               </div>
               <div>
                 <label>
-                  <strong>Teléfono:</strong>
+                  <strong>Nit:</strong>
                 </label>{" "}
-                {currentTutorial.telefono}
+                {currentTutorial.nit}
               </div>
-              <div>
-                <label>
-                  <strong>Teléfono Oficina:</strong>
-                </label>{" "}
-                {currentTutorial.telefonoOficina}
-              </div>
-              <div>
-                <label>
-                  <strong>Parentesco:</strong>
-                </label>{" "}
-                {currentTutorial.parentesco}
-              </div>
+              
 
               <Link
                 to={"/tutorials/" + currentTutorial.codigoReferenciaPersonal}
