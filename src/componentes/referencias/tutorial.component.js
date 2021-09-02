@@ -216,7 +216,6 @@ export default class Tutorial extends Component {
             <Link to="/tutorials">
               <button
                 className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(true)}
               >
                 Atras
               </button>

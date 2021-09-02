@@ -256,7 +256,7 @@ export default class TutorialsList extends Component {
 
               <Link
                 to={"/tutorials/" + currentTutorial.codigoReferenciaPersonal}
-                className="badge badge-warning"
+                className="badge badge-success"
               >
                 Editar
               </Link>
