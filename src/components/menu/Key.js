@@ -26,20 +26,22 @@ keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
     localStorage.setItem("react-refresh-token", keycloak.refreshToken);
 
     setTimeout(() => {
-        keycloak.updateToken(70).success((refreshed) => {
+        keycloak.updateToken(70).then((refreshed) => {
             if (refreshed) {
                 console.debug('Token refreshed' + refreshed);
             } else {
                 console.warn('Token not refreshed, valid for '
                     + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
             }
-        }).error(() => {
+        }).catch((e) => {
             console.error('Failed to refresh token');
         });
 
 
     }, 60000)
 
-}).error(() => {
+}).catch((e) => {
     console.error("Authenticated Failed");
 });
+
+export const doLogout = keycloak.logout;

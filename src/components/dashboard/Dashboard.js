@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { doLogout } from "../menu/Key";
 
 //Material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,7 +48,7 @@ export default function Dashboard() {
         >
           <MenuIcon />
         </IconButton>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={ () => doLogout() }>Logout</Button>
       </Toolbar>
     </AppBar>
   );

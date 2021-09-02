@@ -29,6 +29,7 @@ class TutorialDataService {
   }
 
   getAllIndividual(params) {
+      console.log(params);
     return individual.get("/clientes/individual", { params });
   }
 }

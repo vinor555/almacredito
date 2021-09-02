@@ -58,7 +58,7 @@ export default class ConsultaIndividual extends Component {
       params["size"] = pageSize;
     }
 
-    params["codigoCliente"] = "099000015004";
+    //params["codigoCliente"] = "099000015004";
 
     return params;
   }
@@ -208,7 +208,7 @@ export default class ConsultaIndividual extends Component {
           <Link to="/formularioIndividual">
             <button
               className="m-3 btn btn-sm btn-primary"
-              color="primary"
+              color='#3f51b5'
               //onClick={this.removeAllTutorials}
             >
               Crear Nuevo
