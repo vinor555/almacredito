@@ -58,63 +58,9 @@ export default function Consulta() {
     setTipoId(event.target.value);
   };
 
-  const DividerWithText = ({ children }) => {
-    return (
-      <div className={classes.container}>
-        <span className={classes.content}>{children}</span>
-      </div>
-    );
-  };
-
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>Consulta Individual</DividerWithText>
-      <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Tipo ID
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={tipoId}
-            onChange={handleChangeTipoId}
-            label="tipoId"
-          >
-            <MenuItem key={1} value={1}>
-              DPI
-            </MenuItem>
-            <MenuItem key={2} value={2}>
-              Pasaporte
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          id="outlined-required"
-          label="Núnmero ID"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-          className={classes.formControl}
-        />
-      </div>
       <ConsultaIndividual />
-      <div className={classes.sectionButton}>
-        <Link to="/formularioIndividual">
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-          >
-            Consultar
-          </Button>
-        </Link>
-      </div>
     </form>
   );
 }

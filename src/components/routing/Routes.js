@@ -39,6 +39,7 @@ const Routes = (props) => {
 
         <Route exact path={["/tutorials"]} component={tutorialsListComponent} />
         <Route path="/tutorials/:id" component={Tutorial} />
+        <Route path="/formularioIndividual/:id" component={FormularioIndividual} />
         <Route exact path={["/add"]} component={AddTutorial} />
         <Route component={NotFound} />
       </Switch>

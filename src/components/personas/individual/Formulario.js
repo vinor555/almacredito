@@ -129,9 +129,9 @@ export default function Formulario() {
         {activeStep === steps.length ? (
           <div>
             <Typography className={classes.instructions}>
-              All steps completed
+              Información completada correctamente!
             </Typography>
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleReset}>Guardar</Button>
           </div>
         ) : (
           <div>

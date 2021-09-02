@@ -97,7 +97,6 @@ export default function Menu() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  
   const [tipoPersona, setTipoPersona] = useState("");
   const [link, setLink] = useState("");
 
@@ -200,22 +199,7 @@ export default function Menu() {
           </label>
         </Link>
       </div>
-      <div className={classes.externo}>
-        
-
-        <Link to="/referenciasIndividual">
-          <label htmlFor="icon-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PersonIcon className={classes.icon} />
-              <div>Test Referencias</div>
-            </IconButton>
-          </label>
-        </Link>
-      </div>
+     
     </div>
   );
 }
