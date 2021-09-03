@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default class Tutorial extends Component {
   constructor(props) {
+    console.log(props);
     super(props);
     this.onChangeNombreCompleto = this.onChangeNombreCompleto.bind(this);
     this.onChangeDireccion = this.onChangeDireccion.bind(this);
@@ -214,11 +215,7 @@ export default class Tutorial extends Component {
               </div>
             </form>
             <Link to="/tutorials">
-              <button
-                className="badge badge-primary mr-2"
-              >
-                Atras
-              </button>
+              <button className="badge badge-primary mr-2">Atras</button>
             </Link>
 
             <button

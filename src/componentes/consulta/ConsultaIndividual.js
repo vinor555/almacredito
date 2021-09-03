@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import TutorialDataService from "../../services/tutorial.service";
 import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
-import PersonIcon from "@material-ui/icons/Person";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 export default class ConsultaIndividual extends Component {
   constructor(props) {

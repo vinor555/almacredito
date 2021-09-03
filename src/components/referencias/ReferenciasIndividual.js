@@ -1,11 +1,11 @@
 import React from "react";
-import ReferenciasBancarias from "./ReferenciasBancarias";
+/* import ReferenciasBancarias from "./ReferenciasBancarias";
 import ReferenciasComerciales from "./ReferenciasComerciales";
 import ReferenciasLaborales from "./ReferenciasLaborales";
-import ReferenciasPersonales from "./ReferenciasPersonales";
+import ReferenciasPersonales from "./ReferenciasPersonales"; */
 import { makeStyles } from "@material-ui/core/styles";
 import TutorialsList from "../../componentes/referencias/tutorials-list.component";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AddTutorial from "../../componentes/referencias/add-tutorial.component";
 import Tutorial from "../../componentes/referencias/tutorial.component";
 

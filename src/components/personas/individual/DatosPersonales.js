@@ -14,11 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DatosPersonales() {
+export default function DatosPersonales(props) {
+  const { codigoCliente } = props;
   const classes = useStyles();
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <IndividualDatosPersonales />
+      <IndividualDatosPersonales codigoCliente={codigoCliente} />
     </form>
   );
 }

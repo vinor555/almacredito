@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import tutorialService from "../../services/tutorial.service";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +14,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+//import { Button } from "bootstrap";
+
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+//import AccountCircle from "@material-ui/icons/AccountCircle";
+import AccountCircle from "@material-ui/icons/ArrowRight";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function IndividualDatosPersonales() {
+export default function IndividualDatosPersonales(props) {
   const classes = useStyles();
   const [tipoID, setTipoID] = useState("");
   const [departamento, setDepartamento] = useState(1);
@@ -58,6 +66,44 @@ export default function IndividualDatosPersonales() {
   const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
   const [municipioNacNac, setMunicipioNacNac] = useState(5);
   const [paisExt, setPaisExt] = useState("");
+  const { codigoCliente } = props;
+  const [personaActual, setPersonaActual] = useState({});
+
+  useEffect(() => {
+    tutorialService
+      .getIndividualById(codigoCliente)
+      .then((response) => {
+        setPersonaActual(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  const [noId, setNoId] = useState(null);
+  const [nit, setNit] = useState(null);
+  const [primerNombre, setPrimerNombre] = useState(null);
+  const [segundoNombre, setSegundoNombre] = useState(null);
+  const [primerApellido, setPrimerApellido] = useState(null);
+  const [segundoApellido, setSegundoApellido] = useState(null);
+  const handleChangeNoId = (event) => {
+    setNoId(event.target.value);
+  };
+  const handleChangeNit = (event) => {
+    setNit(event.target.value);
+  };
+  const handleChangePrimerNombre = (event) => {
+    setPrimerNombre(event.target.value);
+  };
+  const handleChangeSegundoNombre = (event) => {
+    setSegundoNombre(event.target.value);
+  };
+  const handleChangePrimerApellido = (event) => {
+    setPrimerApellido(event.target.value);
+  };
+  const handleChangeSegundoApellido = (event) => {
+    setSegundoApellido(event.target.value);
+  };
 
   const [selectedDate, setSelectedDate] = useState(
     new Date("1985-06-15T21:11:54")
@@ -127,7 +173,6 @@ export default function IndividualDatosPersonales() {
 
   const handleChangeDepartamento = (event) => {
     setDepartamento(event.target.value);
-    console.log(departamento);
   };
 
   const handleChangeMunicipio = (event) => {
@@ -168,7 +213,9 @@ export default function IndividualDatosPersonales() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>Identificación</DividerWithText>
+      <DividerWithText>
+        Identificación {personaActual.numeroDocumentoIdentificacion}
+      </DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -190,14 +237,17 @@ export default function IndividualDatosPersonales() {
             <MenuItem value="PASS">Pasaporte</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-          required
-          id="outlined-required"
-          label="No. ID"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Número Identificación
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={noId ? noId : personaActual.numeroDocumentoIdentificacion}
+            onChange={handleChangeNoId}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
       </div>
       <DividerWithText>Lugar Emisión Identificación</DividerWithText>
       <div className={classes.section1}>
@@ -254,70 +304,90 @@ export default function IndividualDatosPersonales() {
           </Select>
         </FormControl>
       </div>
-      <DividerWithText>Nit</DividerWithText>
+
       <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Nit"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">Nit</InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={nit ? nit : personaActual.nit}
+            onChange={handleChangeNit}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
       </div>
-      <DividerWithText>Nombres</DividerWithText>
+
       <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Primer Nombre"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Segundo Nombre"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Tercer Nombre"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Primer Nombre
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={primerNombre ? primerNombre : personaActual.primerNombre}
+            onChange={handleChangePrimerNombre}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Segundo Nombre
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={segundoNombre ? segundoNombre : personaActual.segundoNombre}
+            onChange={handleChangeSegundoNombre}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Tercer Nombre
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
       </div>
-      <DividerWithText>Apellidos</DividerWithText>
+
       <div className={classes.section1}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Primer Apellido"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Segundo Apellido"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Apellido Nombre"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Primer Apellido
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={
+              primerApellido ? primerApellido : personaActual.primerApellido
+            }
+            onChange={handleChangePrimerApellido}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Segundo Apellido
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            value={
+              segundoApellido ? segundoApellido : personaActual.segundoApellido
+            }
+            onChange={handleChangeSegundoApellido}
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
+
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="input-with-icon-adornment">
+            Tercer Apellido
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            startAdornment={<InputAdornment position="start"></InputAdornment>}
+          />
+        </FormControl>
       </div>
       <DividerWithText>Datos Generales</DividerWithText>
       <div className={classes.section1}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DatosPersonales from "./DatosPersonales";
 import Huella from "./Huella";
 import InformacionEconomica from "../../dashboard/InformacionEconomica";
@@ -13,6 +13,8 @@ import Cpe from "./Cpe";
 import RangoServicios from "./RangoServicios";
 import Mensajeria from "./Mensajeria";
 import CondicionMigratoria from "./CondicionMigratoria";
+
+import tutorialService from "../../../services/tutorial.service";
 
 //material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,10 +64,10 @@ function getSteps() {
   ];
 }
 
-function getStepContent(stepIndex) {
+function getStepContent(stepIndex, id) {
   switch (stepIndex) {
     case 0:
-      return <DatosPersonales />;
+      return <DatosPersonales codigoCliente={id} />;
     case 1:
       return <Huella />;
     case 2:
@@ -99,10 +101,13 @@ function getStepContent(stepIndex) {
   }
 }
 
-export default function Formulario() {
+export default function Formulario(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const id = props.match.params.id;
+
+  const [personaIndividual, setPersonaIndividual] = useState({});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -136,7 +141,7 @@ export default function Formulario() {
         ) : (
           <div>
             <Typography className={classes.instructions}>
-              {getStepContent(activeStep)}
+              {getStepContent(activeStep, id)}
             </Typography>
             <div>
               <Button

@@ -219,7 +219,6 @@ export default class TutorialsList extends Component {
           </Link>
         </div>
         <div className="col-md-6">
-          {console.log(currentTutorial)}
           {currentTutorial ? (
             <div>
               <h4>{currentTutorial.nombreCompleto}</h4>

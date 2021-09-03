@@ -21,16 +21,21 @@ class TutorialDataService {
   }
 
   delete(data) {
-    return http.delete(`/clientes/referenciaPersonal?codigoCliente=${data.codigoCliente}&codigoReferenciaPersonal=${data.codigoReferenciaPersonal}`);
+    return http.delete(
+      `/clientes/referenciaPersonal?codigoCliente=${data.codigoCliente}&codigoReferenciaPersonal=${data.codigoReferenciaPersonal}`
+    );
   }
 
   deleteAll() {
     return http.delete("/tutorials");
   }
-
+  //personaIndividual
   getAllIndividual(params) {
-      console.log(params);
     return individual.get("/clientes/individual", { params });
+  }
+
+  getIndividualById(id) {
+    return individual.get(`/clientes/individual/getById?codigoCliente=${id}`);
   }
 }
 
