@@ -1,4 +1,4 @@
-import http, { individual } from "../http-common";
+import http, { individual, catalogo } from "../http-common";
 
 class TutorialDataService {
   getAll(params) {
@@ -12,7 +12,6 @@ class TutorialDataService {
   }
 
   create(data) {
-    console.log(data);
     return http.post("/clientes/referenciaPersonal", data);
   }
 
@@ -36,6 +35,28 @@ class TutorialDataService {
 
   getIndividualById(id) {
     return individual.get(`/clientes/individual/getById?codigoCliente=${id}`);
+  }
+
+  getDepartamentosAll() {
+    return catalogo.get("/departamentos/all");
+  }
+
+  getMunicipiosByCodigoDepartamento(departamento) {
+    return catalogo.get(
+      `/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamento}`
+    );
+  }
+
+  getPaisesAll() {
+    return catalogo.get("/paises/all");
+  }
+
+  getTiposDocumentoAll() {
+    return catalogo.get("/tiposDocumento/all");
+  }
+
+  getGenerosAll() {
+    return catalogo.get("/generos/all");
   }
 }
 

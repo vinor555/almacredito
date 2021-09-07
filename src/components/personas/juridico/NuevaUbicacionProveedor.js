@@ -161,7 +161,7 @@ export default function NuevaUbicacionProveedor() {
             {municipios.map((municipio) => (
               <MenuItem
                 key={municipio.codigoMunicipio}
-                value={municipio.descripcion}
+                value={municipio.codigoMunicipio}
               >
                 {municipio.descripcion}
               </MenuItem>

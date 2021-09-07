@@ -14,7 +14,7 @@ import RangoServicios from "./RangoServicios";
 import Mensajeria from "./Mensajeria";
 import CondicionMigratoria from "./CondicionMigratoria";
 
-import tutorialService from "../../../services/tutorial.service";
+import tutorialService from "../../../services/services";
 
 //material UI
 import { makeStyles } from "@material-ui/core/styles";
@@ -106,8 +106,6 @@ export default function Formulario(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
   const id = props.match.params.id;
-
-  const [personaIndividual, setPersonaIndividual] = useState({});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

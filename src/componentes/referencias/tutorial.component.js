@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TutorialDataService from "../../services/tutorial.service";
+import TutorialDataService from "../../services/services";
 import { Link } from "react-router-dom";
 
 export default class Tutorial extends Component {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import tutorialService from "../../services/tutorial.service";
+import services from "../../services/services";
 
 //Material UI
 import TextField from "@material-ui/core/TextField";
@@ -18,9 +18,7 @@ import {
 
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
-//import AccountCircle from "@material-ui/icons/AccountCircle";
-import AccountCircle from "@material-ui/icons/ArrowRight";
+import { is } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,36 +54,125 @@ const useStyles = makeStyles((theme) => ({
 
 export default function IndividualDatosPersonales(props) {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingId, setIsLoadingId] = useState(true);
+  const [isLoadingGen, setIsLoadingGen] = useState(true);
+  const [personaIndividual, setPersonaIndividual] = useState(null);
+  const [departamento, setDepartamento] = useState(null);
+  const [municipio, setMunicipio] = useState(null);
+  const [paisExt, setPaisExt] = useState("");
   const [tipoID, setTipoID] = useState("");
-  const [departamento, setDepartamento] = useState(1);
-  const [municipio, setMunicipio] = useState(5);
+  const [noId, setNoId] = useState(null);
+  const [departamentos, setDepartamentos] = useState([]);
+  const [municipios, setMunicipios] = useState([]);
+  const [paises, setPaises] = useState([]);
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
   const [nivelAcademico, setNivelAcademico] = useState("");
   const [nacionalidad, setNacionalidad] = useState("");
   const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
   const [municipioNacNac, setMunicipioNacNac] = useState(5);
-  const [paisExt, setPaisExt] = useState("");
-  const { codigoCliente } = props;
-  const [personaActual, setPersonaActual] = useState({});
+  const [nit, setNit] = useState(null);
+  const [primerNombre, setPrimerNombre] = useState(null);
+  const [segundoNombre, setSegundoNombre] = useState(null);
+  const [otroNombre, setOtroNombre] = useState(null);
+  const [primerApellido, setPrimerApellido] = useState(null);
+  const [segundoApellido, setSegundoApellido] = useState(null);
+  const [apellidoCasada, setApellidoCasada] = useState(null);
+  const [tiposDocumento, setTiposDocumento] = useState(null);
+  const [generos, setGeneros] = useState(null);
 
-  useEffect(() => {
-    tutorialService
-      .getIndividualById(codigoCliente)
+  useEffect(async () => {
+    setIsLoading(true);
+    await services
+      .getIndividualById(props.codigoCliente)
       .then((response) => {
-        setPersonaActual(response.data);
+        setPersonaIndividual(response.data);
+        setDepartamento(props.personaIndividual.departamentoEmisionDocumento);
+        setMunicipio(props.personaIndividual.municipioEmisionDocumento);
+        setPaisExt(props.personaIndividual.paisNacimientoExtranjero);
+        setTipoID(props.personaIndividual.tipoDocumentoIdentificacion);
+        setNoId(props.personaIndividual.numeroDocumentoIdentificacion);
+        setPrimerNombre(props.personaIndividual.primerNombre);
+        setSegundoNombre(props.personaIndividual.segundoNombre);
+        setOtroNombre(props.personaIndividual.otrosNombres);
+        setPrimerApellido(props.personaIndividual.primerApellido);
+        setSegundoApellido(props.personaIndividual.segundoApellido);
+        setApellidoCasada(props.personaIndividual.apellidoCasada);
+        setNit(props.personaIndividual.nit);
+        setSexo(props.personaIndividual.genero);
+        setIsLoading(false);
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
 
-  const [noId, setNoId] = useState(null);
-  const [nit, setNit] = useState(null);
-  const [primerNombre, setPrimerNombre] = useState(null);
-  const [segundoNombre, setSegundoNombre] = useState(null);
-  const [primerApellido, setPrimerApellido] = useState(null);
-  const [segundoApellido, setSegundoApellido] = useState(null);
+  useEffect(async () => {
+    setIsLoadingId(true);
+    await services
+      .getTiposDocumentoAll()
+      .then((response) => {
+        setTiposDocumento(response.data.data);
+        setIsLoadingId(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    await services
+      .getDepartamentosAll()
+      .then((response) => {
+        setDepartamentos(response.data.data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    await services
+      .getMunicipiosByCodigoDepartamento(departamento)
+      .then((response) => {
+        setMunicipios(response.data.data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [departamento]);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    await services
+      .getPaisesAll()
+      .then((response) => {
+        setPaises(response.data.data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoadingGen(true);
+    await services
+      .getGenerosAll()
+      .then((response) => {
+        setGeneros(response.data.data);
+        setIsLoadingGen(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   const handleChangeNoId = (event) => {
     setNoId(event.target.value);
   };
@@ -98,66 +185,26 @@ export default function IndividualDatosPersonales(props) {
   const handleChangeSegundoNombre = (event) => {
     setSegundoNombre(event.target.value);
   };
+  const handleChangeOtroNombre = (event) => {
+    setOtroNombre(event.target.value);
+  };
   const handleChangePrimerApellido = (event) => {
     setPrimerApellido(event.target.value);
   };
   const handleChangeSegundoApellido = (event) => {
     setSegundoApellido(event.target.value);
   };
+  const handleChangeApellidoCasada = (event) => {
+    setApellidoCasada(event.target.value);
+  };
 
   const [selectedDate, setSelectedDate] = useState(
-    new Date("1985-06-15T21:11:54")
+    new Date(
+      props.personaIndividual
+        ? props.personaIndividual.fechaNacimiento
+        : "1985-06-15T21:11:54"
+    )
   );
-
-  //consumir el servicio de departamentos
-  const [departamentos, setDepartamentos] = useState([]);
-  const [municipios, setMunicipios] = useState([]);
-  const [paises, setPaises] = useState([]);
-
-  useEffect(() => {
-    fetch(
-      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/departamentos/all"
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setDepartamentos(data.departamentos);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, []);
-
-  useEffect(() => {
-    fetch(
-      `https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/municipios/findAllByCodigoDepartamento?codigoDepartamento=${departamento}`
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setMunicipios(data.municipios);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, [departamento]);
-
-  useEffect(() => {
-    fetch(
-      "https://DesaAppVarias11.chncentral.chn.com.gt:9443/middleware/catalogos/paises/all"
-    )
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setPaises(data.paises);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, []);
 
   const handleChangeNacionalidad = (event) => {
     setNacionalidad(event.target.value);
@@ -211,11 +258,8 @@ export default function IndividualDatosPersonales(props) {
     );
   };
 
-  return (
+  return !isLoading && !isLoadingId && !isLoadingGen ? (
     <form className={classes.root} noValidate autoComplete="off">
-      <DividerWithText>
-        Identificación {personaActual.numeroDocumentoIdentificacion}
-      </DividerWithText>
       <div className={classes.section1}>
         <FormControl
           variant="outlined"
@@ -233,8 +277,14 @@ export default function IndividualDatosPersonales(props) {
             onChange={handleChangeTipoID}
             label="Tipo de ID"
           >
-            <MenuItem value="DPI">DPI</MenuItem>
-            <MenuItem value="PASS">Pasaporte</MenuItem>
+            {tiposDocumento.map((tipoDocumento) => (
+              <MenuItem
+                key={tipoDocumento.codigoTipoDocumento}
+                value={tipoDocumento.codigoTipoDocumento}
+              >
+                {tipoDocumento.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl className={classes.formControl}>
@@ -243,7 +293,7 @@ export default function IndividualDatosPersonales(props) {
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={noId ? noId : personaActual.numeroDocumentoIdentificacion}
+            value={noId}
             onChange={handleChangeNoId}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
@@ -296,7 +346,7 @@ export default function IndividualDatosPersonales(props) {
             {municipios.map((municipio) => (
               <MenuItem
                 key={municipio.codigoMunicipio}
-                value={municipio.descripcion}
+                value={municipio.codigoMunicipio}
               >
                 {municipio.descripcion}
               </MenuItem>
@@ -310,7 +360,7 @@ export default function IndividualDatosPersonales(props) {
           <InputLabel htmlFor="input-with-icon-adornment">Nit</InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={nit ? nit : personaActual.nit}
+            value={nit}
             onChange={handleChangeNit}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
@@ -324,7 +374,7 @@ export default function IndividualDatosPersonales(props) {
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={primerNombre ? primerNombre : personaActual.primerNombre}
+            value={primerNombre}
             onChange={handleChangePrimerNombre}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
@@ -335,17 +385,19 @@ export default function IndividualDatosPersonales(props) {
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={segundoNombre ? segundoNombre : personaActual.segundoNombre}
+            value={segundoNombre}
             onChange={handleChangeSegundoNombre}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
         </FormControl>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="input-with-icon-adornment">
-            Tercer Nombre
+            Otros Nombres
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
+            value={otroNombre}
+            onChange={handleChangeOtroNombre}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
         </FormControl>
@@ -358,9 +410,7 @@ export default function IndividualDatosPersonales(props) {
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={
-              primerApellido ? primerApellido : personaActual.primerApellido
-            }
+            value={primerApellido}
             onChange={handleChangePrimerApellido}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
@@ -371,9 +421,7 @@ export default function IndividualDatosPersonales(props) {
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
-            value={
-              segundoApellido ? segundoApellido : personaActual.segundoApellido
-            }
+            value={segundoApellido}
             onChange={handleChangeSegundoApellido}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
@@ -381,10 +429,12 @@ export default function IndividualDatosPersonales(props) {
 
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="input-with-icon-adornment">
-            Tercer Apellido
+            Apellido Casada
           </InputLabel>
           <Input
             id="input-with-icon-adornment"
+            value={apellidoCasada}
+            onChange={handleChangeApellidoCasada}
             startAdornment={<InputAdornment position="start"></InputAdornment>}
           />
         </FormControl>
@@ -405,8 +455,11 @@ export default function IndividualDatosPersonales(props) {
             onChange={handleChangeSexo}
             label="Sexo"
           >
-            <MenuItem value="M">Masculino</MenuItem>
-            <MenuItem value="F">Femenino</MenuItem>
+            {generos.map((genero) => (
+              <MenuItem key={genero.codigoGenero} value={genero.codigoGenero}>
+                {genero.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <FormControl
@@ -429,20 +482,6 @@ export default function IndividualDatosPersonales(props) {
             <MenuItem value="C">Casado/a</MenuItem>
           </Select>
         </FormControl>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            variant="outline"
-            margin="normal"
-            id="date-picker-dialog"
-            label="Fecha de Nacimiento"
-            format="dd/MM/yyyy"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-        </MuiPickersUtilsProvider>
       </div>
       <div className={classes.section1}>
         <FormControl
@@ -570,7 +609,7 @@ export default function IndividualDatosPersonales(props) {
             {municipios.map((municipio) => (
               <MenuItem
                 key={municipio.codigoMunicipio}
-                value={municipio.descripcion}
+                value={municipio.codigoMunicipio}
               >
                 {municipio.descripcion}
               </MenuItem>
@@ -603,5 +642,5 @@ export default function IndividualDatosPersonales(props) {
         </FormControl>
       </div>
     </form>
-  );
+  ) : null;
 }

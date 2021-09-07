@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TutorialDataService from "../../services/tutorial.service";
+import TutorialDataService from "../../services/services";
 import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
 import PersonIcon from "@material-ui/icons/Person";
