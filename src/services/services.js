@@ -58,6 +58,22 @@ class TutorialDataService {
   getGenerosAll() {
     return catalogo.get("/generos/all");
   }
+
+  getEstadosCivilesAll() {
+    return catalogo.get("/estadosCiviles/all");
+  }
+
+  getNivelesAcademicosAll() {
+    return catalogo.get("/nivelesAcademicos/all");
+  }
+
+  getProfesionesAll() {
+    return catalogo.get("/profesiones/all");
+  }
+
+  getOcupacionesAll() {
+    return catalogo.get("/ocupaciones/all");
+  }
 }
 
 export default new TutorialDataService();

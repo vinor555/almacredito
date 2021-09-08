@@ -18,7 +18,6 @@ import {
 
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { is } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +56,10 @@ export default function IndividualDatosPersonales(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingId, setIsLoadingId] = useState(true);
   const [isLoadingGen, setIsLoadingGen] = useState(true);
+  const [isLoadingEst, setIsLoadingEst] = useState(true);
+  const [isLoadingNiv, setIsLoadingNiv] = useState(true);
+  const [isLoadingProf, setIsLoadingProf] = useState(true);
+  const [isLoadingOcup, setIsLoadingOcup] = useState(true);
   const [personaIndividual, setPersonaIndividual] = useState(null);
   const [departamento, setDepartamento] = useState(null);
   const [municipio, setMunicipio] = useState(null);
@@ -69,9 +72,10 @@ export default function IndividualDatosPersonales(props) {
   const [estadoCivil, setEstadoCivil] = useState("");
   const [sexo, setSexo] = useState("");
   const [nivelAcademico, setNivelAcademico] = useState("");
+  const [nivelesAcademicos, setNivelesAcademicos] = useState("");
   const [nacionalidad, setNacionalidad] = useState("");
-  const [departamentoNacNac, setDepartamentoNacNac] = useState(1);
-  const [municipioNacNac, setMunicipioNacNac] = useState(5);
+  const [departamentoNacNac, setDepartamentoNacNac] = useState("");
+  const [municipioNacNac, setMunicipioNacNac] = useState("");
   const [nit, setNit] = useState(null);
   const [primerNombre, setPrimerNombre] = useState(null);
   const [segundoNombre, setSegundoNombre] = useState(null);
@@ -81,6 +85,11 @@ export default function IndividualDatosPersonales(props) {
   const [apellidoCasada, setApellidoCasada] = useState(null);
   const [tiposDocumento, setTiposDocumento] = useState(null);
   const [generos, setGeneros] = useState(null);
+  const [estadosCiviles, setEstadosCiviles] = useState(null);
+  const [profesion, setProfesion] = useState(null);
+  const [profesiones, setProfesiones] = useState(null);
+  const [ocupacion, setOcupacion] = useState(null);
+  const [ocupaciones, setOcupaciones] = useState(null);
 
   useEffect(async () => {
     setIsLoading(true);
@@ -101,6 +110,14 @@ export default function IndividualDatosPersonales(props) {
         setApellidoCasada(props.personaIndividual.apellidoCasada);
         setNit(props.personaIndividual.nit);
         setSexo(props.personaIndividual.genero);
+        setEstadoCivil(props.personaIndividual.estadoCivil);
+        setNacionalidad(props.personaIndividual.nacionalidad);
+        setDepartamentoNacNac(props.personaIndividual.departamentoNacimiento);
+        setMunicipioNacNac(props.personaIndividual.municipioNacimiento);
+        setPaisExt(props.personaIndividual.paisNacimientoExtranjero);
+        setNivelAcademico(props.personaIndividual.paisNacimientoExtranjero);
+        setProfesion(props.personaIndividual.codigoProfesion);
+        setOcupacion(props.personaIndividual.codigoOcupacion);
         setIsLoading(false);
       })
       .catch((e) => {
@@ -167,6 +184,57 @@ export default function IndividualDatosPersonales(props) {
       .then((response) => {
         setGeneros(response.data.data);
         setIsLoadingGen(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoadingEst(true);
+    await services
+      .getEstadosCivilesAll()
+      .then((response) => {
+        setEstadosCiviles(response.data.data);
+        setIsLoadingEst(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoadingNiv(true);
+    await services
+      .getNivelesAcademicosAll()
+      .then((response) => {
+        setNivelesAcademicos(response.data.data);
+        setIsLoadingNiv(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(async () => {
+    setIsLoadingOcup(true);
+    await services
+      .getOcupacionesAll()
+      .then((response) => {
+        setOcupaciones(response.data.data);
+        setIsLoadingOcup(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  useEffect(async () => {
+    setIsLoadingProf(true);
+    await services
+      .getProfesionesAll()
+      .then((response) => {
+        setProfesiones(response.data.data);
+        setIsLoadingProf(false);
       })
       .catch((e) => {
         console.log(e);
@@ -250,19 +318,25 @@ export default function IndividualDatosPersonales(props) {
     setPaisExt(event.target.value);
   };
 
-  const DividerWithText = ({ children }) => {
-    return (
-      <div className={classes.container}>
-        <span className={classes.content}>{children}</span>
-      </div>
-    );
+  const handleChangeProfesion = (event) => {
+    setProfesion(event.target.value);
   };
 
-  return !isLoading && !isLoadingId && !isLoadingGen ? (
+  const handleChangeOcupacion = (event) => {
+    setOcupacion(event.target.value);
+  };
+
+  return !isLoading &&
+    !isLoadingId &&
+    !isLoadingGen &&
+    !isLoadingEst &&
+    !isLoadingNiv &&
+    !isLoadingOcup &&
+    !isLoadingProf ? (
     <form className={classes.root} noValidate autoComplete="off">
       <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
@@ -287,7 +361,7 @@ export default function IndividualDatosPersonales(props) {
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} required>
           <InputLabel htmlFor="input-with-icon-adornment">
             Número Identificación
           </InputLabel>
@@ -299,16 +373,16 @@ export default function IndividualDatosPersonales(props) {
           />
         </FormControl>
       </div>
-      <DividerWithText>Lugar Emisión Identificación</DividerWithText>
+
       <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Departamento
+            Departamento Emisión ID
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -328,13 +402,13 @@ export default function IndividualDatosPersonales(props) {
           </Select>
         </FormControl>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Municipio
+            Municipio Emisión ID
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -368,7 +442,7 @@ export default function IndividualDatosPersonales(props) {
       </div>
 
       <div className={classes.section1}>
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} required>
           <InputLabel htmlFor="input-with-icon-adornment">
             Primer Nombre
           </InputLabel>
@@ -404,7 +478,7 @@ export default function IndividualDatosPersonales(props) {
       </div>
 
       <div className={classes.section1}>
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} required>
           <InputLabel htmlFor="input-with-icon-adornment">
             Primer Apellido
           </InputLabel>
@@ -439,21 +513,21 @@ export default function IndividualDatosPersonales(props) {
           />
         </FormControl>
       </div>
-      <DividerWithText>Datos Generales</DividerWithText>
+
       <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">Sexo</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">Género</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             value={sexo}
             onChange={handleChangeSexo}
-            label="Sexo"
+            label="Genero"
           >
             {generos.map((genero) => (
               <MenuItem key={genero.codigoGenero} value={genero.codigoGenero}>
@@ -463,7 +537,7 @@ export default function IndividualDatosPersonales(props) {
           </Select>
         </FormControl>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
@@ -478,14 +552,20 @@ export default function IndividualDatosPersonales(props) {
             onChange={handleChangeEstadoCivil}
             label="Estado Civil"
           >
-            <MenuItem value="S">Soltero/a</MenuItem>
-            <MenuItem value="C">Casado/a</MenuItem>
+            {estadosCiviles.map((estadoCivil) => (
+              <MenuItem
+                key={estadoCivil.codigoEstadoCivil}
+                value={estadoCivil.codigoEstadoCivil}
+              >
+                {estadoCivil.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
       <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
@@ -524,7 +604,7 @@ export default function IndividualDatosPersonales(props) {
       </div>
       <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
@@ -539,39 +619,79 @@ export default function IndividualDatosPersonales(props) {
             onChange={handleChangeNivelAcademico}
             label="Nivel Académico"
           >
-            <MenuItem value={1}>Primnaria</MenuItem>
-            <MenuItem value={2}>Básicos</MenuItem>
-            <MenuItem value={3}>Bachillerato</MenuItem>
-            <MenuItem value={4}>Universidad</MenuItem>
+            {nivelesAcademicos.map((nivel) => (
+              <MenuItem
+                key={nivel.codigoNivelAcademico}
+                value={nivel.codigoNivelAcademico}
+              >
+                {nivel.descripcion}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
-        <TextField
-          required
-          id="outlined-required"
-          label="Profesión"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Ocupación"
-          defaultValue=""
-          variant="outlined"
-          size="small"
-        />
-      </div>
-      <DividerWithText>Lugar Nacimiento Nacional</DividerWithText>
-      <div className={classes.section1}>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Departamento
+            Profesión
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={profesion}
+            onChange={handleChangeProfesion}
+            label="Profesion"
+          >
+            {profesiones.map((profesion) => (
+              <MenuItem
+                key={profesion.codigoProfesion}
+                value={profesion.codigoProfesion}
+              >
+                {profesion.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl
+          variant="standard"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Ocupación
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={ocupacion}
+            onChange={handleChangeOcupacion}
+            label="Ocupacion"
+          >
+            {ocupaciones.map((ocupacion) => (
+              <MenuItem
+                key={ocupacion.codigoOcupacion}
+                value={ocupacion.codigoOcupacion}
+              >
+                {ocupacion.descripcion}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className={classes.section1}>
+        <FormControl
+          variant="standard"
+          className={classes.formControl}
+          required
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Depto Nac Nacional
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -591,13 +711,13 @@ export default function IndividualDatosPersonales(props) {
           </Select>
         </FormControl>
         <FormControl
-          variant="outlined"
+          variant="standard"
           className={classes.formControl}
           required
           size="small"
         >
           <InputLabel id="demo-simple-select-outlined-label">
-            Municipio
+            Municipio Nac Nacional
           </InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
@@ -617,30 +737,34 @@ export default function IndividualDatosPersonales(props) {
           </Select>
         </FormControl>
       </div>
-      <DividerWithText>Lugar Nacimiento Extranjero</DividerWithText>
-      <div className={classes.section1}>
-        <FormControl
-          variant="outlined"
-          className={classes.formControl}
-          required
-          size="small"
-        >
-          <InputLabel id="demo-simple-select-outlined-label">País</InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={paisExt}
-            onChange={handleChangePaisExt}
-            label="País"
+
+      {paisExt.trim().length > 0 ? (
+        <div className={classes.section1}>
+          <FormControl
+            variant="standard"
+            className={classes.formControl}
+            required
+            size="small"
           >
-            {paises.map((pais) => (
-              <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
-                {pais.descripcion}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+            <InputLabel id="demo-simple-select-outlined-label">
+              País Nac Extranjero
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={paisExt}
+              onChange={handleChangePaisExt}
+              label="País"
+            >
+              {paises.map((pais) => (
+                <MenuItem key={pais.codigoPais} value={pais.codigoPais}>
+                  {pais.descripcion}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      ) : null}
     </form>
   ) : null;
 }
